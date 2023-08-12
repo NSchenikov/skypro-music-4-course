@@ -6,6 +6,7 @@ import Playlist from './components/playlist/playlist.js'
 import MainNavMenu from './components/mainNavMenu/mainNavMenu.js'
 import Search from './components/search/search.js'
 import Filter from './components/filter/filter.js'
+import Sidebar from './components/sidebar/sidebar.js'
 
 function App() {
   return (
@@ -32,47 +33,7 @@ function App() {
                 <Playlist />
               </div>
             </div>
-            <div className="main__sidebar sidebar">
-              <div className="sidebar__personal">
-                <p className="sidebar__personal-name">Sergey.Ivanov</p>
-                <div className="sidebar__icon">
-                  <svg alt="logout" className="logout">
-                    <use xlinkHref="img/icon/sprite.svg#logout"></use>
-                  </svg>
-                </div>
-              </div>
-              <div className="sidebar__block">
-                <div className="sidebar__list">
-                  <div className="sidebar__item">
-                    <a className="sidebar__link" href="#">
-                      <img
-                        className="sidebar__img"
-                        src="img/playlist01.png"
-                        alt="day's playlist"
-                      />
-                    </a>
-                  </div>
-                  <div className="sidebar__item">
-                    <a className="sidebar__link" href="#">
-                      <img
-                        className="sidebar__img"
-                        src="img/playlist02.png"
-                        alt="day's playlist"
-                      />
-                    </a>
-                  </div>
-                  <div className="sidebar__item">
-                    <a className="sidebar__link" href="#">
-                      <img
-                        className="sidebar__img"
-                        src="img/playlist03.png"
-                        alt="day's playlist"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Sidebar />
           </main>
 
           <Player />
