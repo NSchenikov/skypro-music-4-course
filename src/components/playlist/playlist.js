@@ -1,40 +1,75 @@
 import './playlist.css'
+import PlaylistItem from '../playlistItem/playlistItem'
 
 function Playlist() {
   return (
     <div className="content__playlist playlist">
-      <div className="playlist__item">
-        <div className="playlist__track track">
-          <div className="track__title">
-            <div className="track__title-image">
-              <svg className="track__title-svg" alt="music">
-                <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-              </svg>
-            </div>
-            <div className="track__title-text">
-              <a className="track__title-link" href="http://">
-                Guilt <span className="track__title-span"></span>
-              </a>
-            </div>
-          </div>
-          <div className="track__author">
-            <a className="track__author-link" href="http://">
-              Nero
-            </a>
-          </div>
-          <div className="track__album">
-            <a className="track__album-link" href="http://">
-              Welcome Reality
-            </a>
-          </div>
-          <div className="track__time">
-            <svg className="track__time-svg" alt="time">
-              <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-            </svg>
-            <span className="track__time-text">4:44</span>
-          </div>
-        </div>
-      </div>
+      <PlaylistItem
+        tarckTitle="Guilt"
+        trackAuthor="Nero"
+        trackAlbum="Welcome Reality"
+        trackTime="4:44"
+      />
+      <PlaylistItem
+        tarckTitle="Elektro"
+        trackAuthor="Dynoro, Outwork, Mr. Gee"
+        trackAlbum="Elektro"
+        trackTime="2:22"
+      />
+      <PlaylistItem
+        tarckTitle="Im Fire"
+        trackAuthor="Ali Bakgor"
+        trackAlbum="Im Fire"
+        trackTime="2:22"
+      />
+      <PlaylistItem
+        tarckTitle="Non Stop (Remix)"
+        trackAuthor="Стоункат, Psychopath"
+        trackAlbum="Non Stop"
+        trackTime="4:12"
+      />
+      <PlaylistItem
+        tarckTitle="Run Run (feat. AR/CO)"
+        trackAuthor="Jaded, Will Clarke, AR/CO"
+        trackAlbum="Run Run"
+        trackTime="2:54"
+      />
+      <PlaylistItem
+        tarckTitle="Eyes on Fire (Zeds Dead Remix)"
+        trackAuthor="Blue Foundation, Zeds Dead"
+        trackAlbum="Eyes on Fire"
+        trackTime="5:20"
+      />
+      <PlaylistItem
+        tarckTitle="Mucho Bien (Hi Profile Remix)"
+        trackAuthor="HYBIT, Mr. Black, Offer Nissim, Hi Profile"
+        trackAlbum="Mucho Bien"
+        trackTime="3:41"
+      />
+      <PlaylistItem
+        tarckTitle="Knives n Cherries"
+        trackAuthor="minthaze"
+        trackAlbum="Captivating"
+        trackTime="1:48"
+      />
+      <PlaylistItem
+        tarckTitle="Knives n Cherries"
+        trackAuthor="minthaze"
+        trackAlbum="Captivating"
+        trackTime="1:48"
+      />
+      <PlaylistItem
+        tarckTitle="How Deep Is Your Love"
+        trackAuthor="Calvin Harris, Disciples"
+        trackAlbum="How Deep Is Your Love"
+        trackTime="3:32"
+      />
+      <PlaylistItem
+        tarckTitle="Morena"
+        trackAuthor="Tom Boxer"
+        trackAlbum="Soundz Made in Romania"
+        trackTime="3:36"
+      />
     </div>
   )
 }
