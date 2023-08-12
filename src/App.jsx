@@ -5,6 +5,7 @@ import Player from '../src/components/player/player.js'
 import Playlist from './components/playlist/playlist.js'
 import MainNavMenu from './components/mainNavMenu/mainNavMenu.js'
 import Search from './components/search/search.js'
+import Filter from './components/filter/filter.js'
 
 function App() {
   return (
@@ -16,18 +17,7 @@ function App() {
             <div className="main__centerblock centerblock">
               <Search />
               <h2 className="centerblock__h2">Треки</h2>
-              <div className="centerblock__filter filter">
-                <div className="filter__title">Искать по:</div>
-                <div className="filter__button button-author _btn-text">
-                  исполнителю
-                </div>
-                <div className="filter__button button-year _btn-text">
-                  году выпуска
-                </div>
-                <div className="filter__button button-genre _btn-text">
-                  жанру
-                </div>
-              </div>
+              <Filter />
               <div className="centerblock__content">
                 <div className="content__title playlist-title">
                   <div className="playlist-title__col col01">Трек</div>
