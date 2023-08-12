@@ -12,7 +12,8 @@ function PlaylistItem(props) {
           </div>
           <div className="track__title-text">
             <a className="track__title-link" href="http://">
-              {props.tarckTitle} <span className="track__title-span"></span>
+              {props.trackTitle}
+              <span className="track__title-span">{props.trackTitleExtra}</span>
             </a>
           </div>
         </div>

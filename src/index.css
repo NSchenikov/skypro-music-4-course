@@ -62,13 +62,15 @@ ul li {
 .wrapper {
   width: 100%;
   min-height: 100%;
-  overflow: hidden;
-  background-color: #383838;
+  /* overflow: auto; */
+  overflow: scroll;
+  /* background-color: #383838; */
+  background-color: #181818;
 }
 
 .container {
   max-width: 1920px;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0 auto;
   position: relative;
   background-color: #181818;
@@ -113,7 +115,7 @@ ul li {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
@@ -182,6 +184,7 @@ ul li {
 
 .menu__list {
   padding: 18px 0 10px 0;
+  display: none;
 }
 
 .menu__item {
@@ -219,6 +222,8 @@ ul li {
   line-height: 72px;
   letter-spacing: -0.8px;
   margin-bottom: 45px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .centerblock__filter {
@@ -372,14 +377,20 @@ ul li {
 
 .col01 {
   width: 447px;
+  display: flex;
+  justify-self: flex-start;
 }
 
 .col02 {
   width: 321px;
+  display: flex;
+  justify-self: flex-start;
 }
 
 .col03 {
   width: 245px;
+  display: flex;
+  justify-self: flex-start;
 }
 
 .col04 {
@@ -411,6 +422,7 @@ ul li {
   line-height: 24px;
   color: #ffffff;
   margin-right: 16px;
+  display: none;
 }
 
 .sidebar__icon {
@@ -421,9 +433,14 @@ ul li {
   cursor: pointer;
 }
 
+.logout {
+  width: 43px;
+  height: 43px;
+}
+
 .sidebar__block {
   height: 100%;
-  padding: 240px 0 0 0;
+  padding: 340px 0 0 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
