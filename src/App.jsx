@@ -4,6 +4,7 @@ import '../src/components/player/player.js'
 import Player from '../src/components/player/player.js'
 import Playlist from './components/playlist/playlist.js'
 import MainNavMenu from './components/mainNavMenu/mainNavMenu.js'
+import Search from './components/search/search.js'
 
 function App() {
   return (
@@ -13,17 +14,7 @@ function App() {
           <main className="main">
             <MainNavMenu />
             <div className="main__centerblock centerblock">
-              <div className="centerblock__search search">
-                <svg className="search__svg">
-                  <use xlinkHref="img/icon/sprite.svg#icon-search"></use>
-                </svg>
-                <input
-                  className="search__text"
-                  type="search"
-                  placeholder="Поиск"
-                  name="search"
-                />
-              </div>
+              <Search />
               <h2 className="centerblock__h2">Треки</h2>
               <div className="centerblock__filter filter">
                 <div className="filter__title">Искать по:</div>
