@@ -7,8 +7,23 @@ import MainNavMenu from './components/mainNavMenu/mainNavMenu.js'
 import Search from './components/search/search.js'
 import Filter from './components/filter/filter.js'
 import Sidebar from './components/sidebar/sidebar.js'
+import PlaylistSkeleton from './components/playlistSkeleton/playlistSkeleton.js'
+import PlayerSkeleton from './components/playerSkeleton/playerSkeleton.js'
+import SidebarSkeleton from './components/sidebarSkeleton/sidebarSkeleton.js'
+
+import React from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timerId = setInterval(() => setLoading(false), 5000)
+    return () => {
+      clearInterval(timerId)
+    }
+  })
+
   return (
     <div className="App">
       <div className="wrapper">
@@ -30,13 +45,16 @@ function App() {
                     </svg>
                   </div>
                 </div>
-                <Playlist />
+                {loading && <PlaylistSkeleton />}
+                {!loading && <Playlist />}
               </div>
             </div>
-            <Sidebar />
+            {loading && <SidebarSkeleton />}
+            {!loading && <Sidebar />}
           </main>
 
-          <Player />
+          {loading && <PlayerSkeleton />}
+          {!loading && <Player />}
 
           <footer className="footer"></footer>
         </div>
