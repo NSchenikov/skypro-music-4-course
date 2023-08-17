@@ -47,7 +47,7 @@
   margin-right: 10px;
 }
 
-.pop-up-big {
+.pop-up-author {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,6 +63,38 @@
   overflow: scroll;
 }
 
+.pop-up-genre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 248px;
+  height: 305px;
+  border-radius: 12px;
+  background: #313131;
+  position: absolute;
+  z-index: 1;
+  margin-top: 360px;
+  margin-left: 390px;
+  overflow: scroll;
+}
+
+.pop-up-year {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #313131;
+  position: absolute;
+  z-index: 1;
+  margin-top: 250px;
+  margin-left: 240px;
+  overflow: scroll;
+  width: 221px;
+  height: 196px;
+}
+
 .pop-up-box {
   display: flex;
   flex-direction: column;
@@ -73,20 +105,14 @@
   height: 237px;
 }
 
-.pop-up-small {
+.pop-up-box-year {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: #313131;
-  position: absolute;
-  z-index: 1;
-  margin-top: 360px;
-  margin-left: 90px;
-  overflow: scroll;
-  width: 221px;
-  height: 196px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+  width: 153px;
+  height: 128px;
 }
 
 .pop-up-line {

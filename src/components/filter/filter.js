@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import './filter.css'
 
 function Filter() {
-  const [popUpMenu, setPopUpMenu] = useState(false)
+  const [visibleFilter, setVisibleFilter] = useState(null)
+
+  const toggleVisibleFilter = (filter) => {
+    setVisibleFilter(visibleFilter === filter ? null : filter)
+  }
 
   let authors = [
     'Nero',
@@ -37,32 +41,35 @@ function Filter() {
 
       <button
         className="filter__button button-author _btn-text"
-        onClick={() => setPopUpMenu(!popUpMenu)}
+        onClick={() => toggleVisibleFilter('author')}
       >
         исполнителю
       </button>
-      {popUpMenu && PopUpMenu(authors)}
+      {visibleFilter === 'author' &&
+        PopUpMenu(authors, 'pop-up-author', 'pop-up-box')}
       <button
         className="filter__button button-year _btn-text"
-        onClick={() => setPopUpMenu(!popUpMenu)}
+        onClick={() => toggleVisibleFilter('year')}
       >
         году выпуска
       </button>
-      {popUpMenu && PopUpMenu(years)}
+      {visibleFilter === 'year' &&
+        PopUpMenu(years, 'pop-up-year', 'pop-up-box-year')}
       <button
         className="filter__button button-genre _btn-text"
-        onClick={() => setPopUpMenu(!popUpMenu)}
+        onClick={() => toggleVisibleFilter('genre')}
       >
         жанру
       </button>
-      {popUpMenu && PopUpMenu(genres)}
+      {visibleFilter === 'genre' &&
+        PopUpMenu(genres, 'pop-up-genre', 'pop-up-box')}
     </div>
   )
 
-  function PopUpMenu(props) {
+  function PopUpMenu(props, klass, klassBox) {
     return (
-      <ul className="pop-up-big">
-        <div className="pop-up-box">
+      <ul className={klass}>
+        <div className={klassBox}>
           {props.map((item, i) => (
             <li className="pop-up-line" key={i}>
               {item}
