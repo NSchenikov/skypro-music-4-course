@@ -38,33 +38,38 @@ const StyledFilterButton = styled.button`
     margin-right: 10px;
   }
 `
+// < { $author: boolean, $genre: boolean, $year: boolean } >
 
-const StyledPopupAuthor = styled.ul`
+const StyledPopup =
+  styled.ul <
+  { $author: boolean, $genre: boolean, $year: boolean } >
+  `
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 248px;
-  height: 305px;
+  width: ${(props) => (props.$year ? '221px' : '248px')};
+  height: ${(props) => (props.$year ? '196px' : '305px')};
   border-radius: 12px;
   background: #313131;
   position: absolute;
   z-index: 1;
-  margin-top: 360px;
-  margin-left: 90px;
+  margin-top: ${(props) => (props.$year ? '250px' : '360px')};
+  margin-left: ${(props) =>
+    props.$author ? '90px' : props.$genre ? '390px' : '240px'};
   overflow: scroll;
 `
 
-const StyledPopupGenre = styled(StyledPopupAuthor)`
-  margin-left: 390px;
-`
+// const StyledPopupGenre = styled(StyledPopupAuthor)`
+//   margin-left: 390px;
+// `
 
-const StyledPopupYear = styled(StyledPopupAuthor)`
-  width: 221px;
-  height: 196px;
-  margin-top: 250px;
-  margin-left: 240px;
-`
+// const StyledPopupYear = styled(StyledPopupAuthor)`
+//   width: 221px;
+//   height: 196px;
+//   margin-top: 250px;
+//   margin-left: 240px;
+// `
 
 const StyledPopupBox = styled.div`
   display: flex;
@@ -141,8 +146,7 @@ function Filter() {
       >
         исполнителю
       </StyledFilterButton>
-      {visibleFilter === 'author' &&
-        PopUpMenu(authors, 'pop-up-author', 'pop-up-box')}
+      {visibleFilter === 'author' && PopUpMenu(authors, $author, 'pop-up-box')}
       <StyledFilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('year')}
@@ -150,27 +154,26 @@ function Filter() {
         году выпуска
       </StyledFilterButton>
       {visibleFilter === 'year' &&
-        PopUpMenu(years, 'pop-up-year', 'pop-up-box-year')}
+        PopUpMenu(years, $year, 'pop-up-year', 'pop-up-box-year')}
       <StyledFilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('genre')}
       >
         жанру
       </StyledFilterButton>
-      {visibleFilter === 'genre' &&
-        PopUpMenu(genres, 'pop-up-genre', 'pop-up-box')}
+      {visibleFilter === 'genre' && PopUpMenu(genres, $genre, 'pop-up-box')}
     </StyledCenterblockFilter>
   )
 
-  function PopUpMenu(props, klass, klassBox) {
+  function PopUpMenu(array, prop, klassBox) {
     return (
-      <ul className={klass}>
+      <StyledPopup $author>
         <div className={klassBox}>
-          {props.map((item, i) => (
+          {array.map((item, i) => (
             <StyledPopupLine key={i}>{item}</StyledPopupLine>
           ))}
         </div>
-      </ul>
+      </StyledPopup>
     )
   }
 }
