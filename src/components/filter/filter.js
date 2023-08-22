@@ -39,11 +39,11 @@ const StyledFilterButton = styled.button`
   }
 `
 // < { $author: boolean, $genre: boolean, $year: boolean } >
+const author = true,
+  genre = true,
+  year = true
 
-const StyledPopup =
-  styled.ul <
-  { $author: boolean, $genre: boolean, $year: boolean } >
-  `
+const StyledPopup = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,14 +77,14 @@ const StyledPopupBox = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 30px;
-  width: 180px;
-  height: 237px;
+  width: ${(props) => (props.$year ? '153px' : '180px')};
+  height: ${(props) => (props.$year ? '128px' : '237px')};
 `
 
-const StyledPopupBoxYear = styled(StyledPopupBox)`
-  width: 153px;
-  height: 128px;
-`
+// const StyledPopupBoxYear = styled(StyledPopupBox)`
+//   width: 153px;
+//   height: 128px;
+// `
 
 const StyledPopupLine = styled.li`
   font-family: StratosSkyeng;
@@ -146,33 +146,32 @@ function Filter() {
       >
         исполнителю
       </StyledFilterButton>
-      {visibleFilter === 'author' && PopUpMenu(authors, $author, 'pop-up-box')}
+      {visibleFilter === 'author' && PopUpMenu(authors, author)}
       <StyledFilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('year')}
       >
         году выпуска
       </StyledFilterButton>
-      {visibleFilter === 'year' &&
-        PopUpMenu(years, $year, 'pop-up-year', 'pop-up-box-year')}
+      {visibleFilter === 'year' && PopUpMenu(years, year)}
       <StyledFilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('genre')}
       >
         жанру
       </StyledFilterButton>
-      {visibleFilter === 'genre' && PopUpMenu(genres, $genre, 'pop-up-box')}
+      {visibleFilter === 'genre' && PopUpMenu(genres, genre)}
     </StyledCenterblockFilter>
   )
 
-  function PopUpMenu(array, prop, klassBox) {
+  function PopUpMenu(array, prop) {
     return (
-      <StyledPopup $author>
-        <div className={klassBox}>
+      <StyledPopup prop={prop}>
+        <StyledPopupBox prop={prop}>
           {array.map((item, i) => (
             <StyledPopupLine key={i}>{item}</StyledPopupLine>
           ))}
-        </div>
+        </StyledPopupBox>
       </StyledPopup>
     )
   }
