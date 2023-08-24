@@ -1,106 +1,7 @@
 import React, { useState } from 'react'
-import './filter.css'
-import styled from 'styled-components'
+import * as S from './filter.style'
 
-const StyledCenterblockFilter = styled.div`
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 51px;
-`
-
-const StyledFilterTitle = styled.div`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  margin-right: 15px;
-`
-
-const StyledFilterButton = styled.button`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  border: 1px solid #ffffff;
-  background: #181818;
-  color: #ffffff;
-  border-radius: 60px;
-  padding: 6px 20px;
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
-`
-// < { $author: boolean, $genre: boolean, $year: boolean } >
-const author = true,
-  genre = true,
-  year = true
-
-const StyledPopup = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: ${(props) => (props.$year ? '221px' : '248px')};
-  height: ${(props) => (props.$year ? '196px' : '305px')};
-  border-radius: 12px;
-  background: #313131;
-  position: absolute;
-  z-index: 1;
-  margin-top: ${(props) => (props.$year ? '250px' : '360px')};
-  margin-left: ${(props) =>
-    props.$author ? '90px' : props.$genre ? '390px' : '240px'};
-  overflow: scroll;
-`
-
-// const StyledPopupGenre = styled(StyledPopupAuthor)`
-//   margin-left: 390px;
-// `
-
-// const StyledPopupYear = styled(StyledPopupAuthor)`
-//   width: 221px;
-//   height: 196px;
-//   margin-top: 250px;
-//   margin-left: 240px;
-// `
-
-const StyledPopupBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 30px;
-  width: ${(props) => (props.$year ? '153px' : '180px')};
-  height: ${(props) => (props.$year ? '128px' : '237px')};
-`
-
-// const StyledPopupBoxYear = styled(StyledPopupBox)`
-//   width: 153px;
-//   height: 128px;
-// `
-
-const StyledPopupLine = styled.li`
-  font-family: StratosSkyeng;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0em;
-  &:last-child {
-    padding-bottom: 30px;
-  }
-  &:hover {
-    color: #b672ff;
-    text-decoration: underline;
-  }
-`
-// const Styled = styled.div``
+// const S. = styled.div``
 
 function Filter() {
   const [visibleFilter, setVisibleFilter] = useState(null)
@@ -137,44 +38,56 @@ function Filter() {
   let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
 
   return (
-    <StyledCenterblockFilter>
-      <StyledFilterTitle>Искать по:</StyledFilterTitle>
+    <S.CenterblockFilter>
+      <S.FilterTitle>Искать по:</S.FilterTitle>
 
-      <StyledFilterButton
+      <S.FilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('author')}
       >
         исполнителю
-      </StyledFilterButton>
-      {visibleFilter === 'author' && PopUpMenu(authors, author)}
-      <StyledFilterButton
+      </S.FilterButton>
+      {visibleFilter === 'author' && (
+        <S.Popup $author>
+          <S.PopupBox $author>
+            {authors.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+      <S.FilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('year')}
       >
         году выпуска
-      </StyledFilterButton>
-      {visibleFilter === 'year' && PopUpMenu(years, year)}
-      <StyledFilterButton
+      </S.FilterButton>
+      {visibleFilter === 'year' && (
+        <S.Popup $year>
+          <S.PopupBox $year>
+            {years.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+      <S.FilterButton
         className="_btn-text"
         onClick={() => toggleVisibleFilter('genre')}
       >
         жанру
-      </StyledFilterButton>
-      {visibleFilter === 'genre' && PopUpMenu(genres, genre)}
-    </StyledCenterblockFilter>
+      </S.FilterButton>
+      {visibleFilter === 'genre' && (
+        <S.Popup $genre>
+          <S.PopupBox $genre>
+            {genres.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+    </S.CenterblockFilter>
   )
-
-  function PopUpMenu(array, prop) {
-    return (
-      <StyledPopup prop={prop}>
-        <StyledPopupBox prop={prop}>
-          {array.map((item, i) => (
-            <StyledPopupLine key={i}>{item}</StyledPopupLine>
-          ))}
-        </StyledPopupBox>
-      </StyledPopup>
-    )
-  }
 }
 
 export default Filter
