@@ -1,4 +1,3 @@
-import './playerSkeleton.css'
 import * as S from '../player/player.style'
 import * as Styled from './playerSkeleton.style'
 
