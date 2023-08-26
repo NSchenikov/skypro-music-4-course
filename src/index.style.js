@@ -1,17 +1,8 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+import styled, { createGlobalStyle } from 'styled-components'
+import StratosSkyengWoff from './fonts/StratosSkyeng.woff'
+import StratosSkyengWoff2 from './fonts/StratosSkyeng.woff2'
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -46,34 +37,10 @@ ul li {
   src:
     local('StratosSkyeng'),
     local('StratosSkyeng'),
-    url('../public/fonts/StratosSkyeng.woff2') format('woff2'),
-    url('../public/fonts/StratosSkyeng.woff') format('woff');
+    url(${StratosSkyengWoff2}) format('woff2'),
+    url(${StratosSkyengWoff}) format('woff');
   font-weight: 400;
   font-style: normal;
-}
-
-.App {
-  width: 100%;
-  height: 100%;
-  font-family: 'StratosSkyeng', sans-serif;
-  color: #ffffff;
-}
-
-.wrapper {
-  width: 100%;
-  min-height: 100%;
-  /* overflow: auto; */
-  overflow: scroll;
-  /* background-color: #383838; */
-  background-color: #181818;
-}
-
-.container {
-  max-width: 1920px;
-  /* height: 100vh; */
-  margin: 0 auto;
-  position: relative;
-  background-color: #181818;
 }
 
 ._btn-text:hover {
@@ -106,36 +73,51 @@ ul li {
   stroke: #ffffff;
   cursor: pointer;
 }
+`
 
-.main {
+export const App = styled.div`
+  width: 100%;
+  height: 100%;
+  font-family: 'StratosSkyeng', sans-serif;
+  color: #ffffff;
+  text-align: center;
+`
+
+export const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100%;
+  overflow: scroll;
+  background-color: #181818;
+`
+
+export const Container = styled.div`
+  max-width: 1920px;
+  margin: 0 auto;
+  position: relative;
+  background-color: #181818;
+`
+
+export const Main = styled.main`
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  /* -ms-flex-wrap: wrap; */
-  /* flex-wrap: wrap; */
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
+`
 
-.main__nav {
-  width: 244px;
-  background-color: #181818;
-  padding: 20px 0 20px 36px;
-}
-
-.main__centerblock {
+export const MainCenterblock = styled.div`
   width: auto;
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
   flex-grow: 3;
   padding: 20px 40px 20px 111px;
-}
+`
 
-.centerblock__h2 {
+export const CenterblockH2 = styled.h2`
   font-style: normal;
   font-weight: 400;
   font-size: 64px;
@@ -144,9 +126,9 @@ ul li {
   margin-bottom: 45px;
   display: flex;
   justify-content: flex-start;
-}
+`
 
-.centerblock__content {
+export const CenterblockContent = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -154,9 +136,9 @@ ul li {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-}
+`
 
-.content__title {
+export const ContentTitle = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -171,20 +153,9 @@ ul li {
   -ms-flex-pack: justify;
   justify-content: space-between;
   margin-bottom: 24px;
-}
+`
 
-.content__playlist {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.playlist-title__col {
+export const PlaylistTitleCol = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -192,34 +163,37 @@ ul li {
   letter-spacing: 2px;
   color: #696969;
   text-transform: uppercase;
-}
+`
 
-.playlist-title__svg {
+export const Col01 = styled(PlaylistTitleCol)`
+  width: 447px;
+  display: flex;
+  justify-self: flex-start;
+`
+
+export const Col02 = styled(PlaylistTitleCol)`
+  width: 321px;
+  display: flex;
+  justify-self: flex-start;
+`
+
+export const Col03 = styled(PlaylistTitleCol)`
+  width: 245px;
+  display: flex;
+  justify-self: flex-start;
+`
+
+export const Col04 = styled(PlaylistTitleCol)`
+  width: 60px;
+  text-align: end;
+`
+
+export const PlaylistTitleSvg = styled.svg`
   width: 12px;
   height: 12px;
   fill: transparent;
   stroke: #696969;
-}
+`
 
-.col01 {
-  width: 447px;
-  display: flex;
-  justify-self: flex-start;
-}
-
-.col02 {
-  width: 321px;
-  display: flex;
-  justify-self: flex-start;
-}
-
-.col03 {
-  width: 245px;
-  display: flex;
-  justify-self: flex-start;
-}
-
-.col04 {
-  width: 60px;
-  text-align: end;
-}
+export const Footer = styled.footer``
+// export const S = styled.div``
