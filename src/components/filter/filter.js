@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import './filter.css'
+import * as S from './filter.style'
+
+// const S. = styled.div``
 
 function Filter() {
   const [visibleFilter, setVisibleFilter] = useState(null)
@@ -36,49 +38,56 @@ function Filter() {
   let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
 
   return (
-    <div className="centerblock__filter filter">
-      <div className="filter__title">Искать по:</div>
+    <S.CenterblockFilter>
+      <S.FilterTitle>Искать по:</S.FilterTitle>
 
-      <button
-        className="filter__button button-author _btn-text"
+      <S.FilterButton
+        className="_btn-text"
         onClick={() => toggleVisibleFilter('author')}
       >
         исполнителю
-      </button>
-      {visibleFilter === 'author' &&
-        PopUpMenu(authors, 'pop-up-author', 'pop-up-box')}
-      <button
-        className="filter__button button-year _btn-text"
+      </S.FilterButton>
+      {visibleFilter === 'author' && (
+        <S.Popup $author>
+          <S.PopupBox $author>
+            {authors.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+      <S.FilterButton
+        className="_btn-text"
         onClick={() => toggleVisibleFilter('year')}
       >
         году выпуска
-      </button>
-      {visibleFilter === 'year' &&
-        PopUpMenu(years, 'pop-up-year', 'pop-up-box-year')}
-      <button
-        className="filter__button button-genre _btn-text"
+      </S.FilterButton>
+      {visibleFilter === 'year' && (
+        <S.Popup $year>
+          <S.PopupBox $year>
+            {years.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+      <S.FilterButton
+        className="_btn-text"
         onClick={() => toggleVisibleFilter('genre')}
       >
         жанру
-      </button>
-      {visibleFilter === 'genre' &&
-        PopUpMenu(genres, 'pop-up-genre', 'pop-up-box')}
-    </div>
+      </S.FilterButton>
+      {visibleFilter === 'genre' && (
+        <S.Popup $genre>
+          <S.PopupBox $genre>
+            {genres.map((item, i) => (
+              <S.PopupLine key={i}>{item}</S.PopupLine>
+            ))}
+          </S.PopupBox>
+        </S.Popup>
+      )}
+    </S.CenterblockFilter>
   )
-
-  function PopUpMenu(props, klass, klassBox) {
-    return (
-      <ul className={klass}>
-        <div className={klassBox}>
-          {props.map((item, i) => (
-            <li className="pop-up-line" key={i}>
-              {item}
-            </li>
-          ))}
-        </div>
-      </ul>
-    )
-  }
 }
 
 export default Filter

@@ -1,30 +1,31 @@
-import './sidebarSkeleton.css'
+import * as S from '../sidebar/sidebar.style'
+import * as Styled from './sidebarSkeleton.style'
 
 function SidebarSkeleton() {
   return (
-    <div className="main__sidebar sidebar">
-      <div className="sidebar__personal">
-        <p className="sidebar__personal-name">Sergey.Ivanov</p>
-        <div className="sidebar__icon">
-          <svg alt="logout" className="logout">
+    <S.MainSidebar>
+      <S.SidebarPersonal>
+        <S.SidebarPersonalName>Sergey.Ivanov</S.SidebarPersonalName>
+        <S.SidebarIcon>
+          <S.Logout alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout"></use>
-          </svg>
-        </div>
-      </div>
-      <div className="sidebar__block">
-        <div className="sidebar__list">
-          <div className="sidebar__item">
-            <div className="sidebar__img-skeleton" />
-          </div>
-          <div className="sidebar__item">
-            <div className="sidebar__img-skeleton" />
-          </div>
-          <div className="sidebar__item">
-            <div className="sidebar__img-skeleton" />
-          </div>
-        </div>
-      </div>
-    </div>
+          </S.Logout>
+        </S.SidebarIcon>
+      </S.SidebarPersonal>
+      <S.SidebarBlock>
+        <S.SidebarList>
+          <S.SidebarItem>
+            <Styled.SidebarImgSkeleton />
+          </S.SidebarItem>
+          <S.SidebarItem>
+            <Styled.SidebarImgSkeleton />
+          </S.SidebarItem>
+          <S.SidebarItem>
+            <Styled.SidebarImgSkeleton />
+          </S.SidebarItem>
+        </S.SidebarList>
+      </S.SidebarBlock>
+    </S.MainSidebar>
   )
 }
 

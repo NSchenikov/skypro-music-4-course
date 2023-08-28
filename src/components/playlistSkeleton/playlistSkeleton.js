@@ -1,13 +1,13 @@
-import './playlistSkeleton.css'
 import PlaylistItemSkeleton from '../playlistItemSkeleton/playlistItemSkeleton.js'
+import * as S from './playlistSkeleton.style'
 
 function PlaylistSkeleton() {
   return (
-    <div className="content__playlist playlist">
+    <S.ContentPlaylist>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
         <PlaylistItemSkeleton key={n} />
       ))}
-    </div>
+    </S.ContentPlaylist>
   )
 }
 

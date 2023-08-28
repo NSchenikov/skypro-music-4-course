@@ -1,17 +1,18 @@
-import './playlistItemSkeleton.css'
+import * as S from '../playlistItem/playlistItem.style'
+import * as Styled from './playlistItemSkeleton.style'
 
 function PlaylistItemSkeleton() {
   return (
-    <div className="playlist__item">
-      <div className="playlist__track track">
-        <div className="track__title">
-          <div className="track__title-image-skeleton"></div>
-          <div className="track__title-text-skeleton"></div>
-        </div>
-        <div className="track__author-skeleton"></div>
-        <div className="track__album-skleleton"></div>
-      </div>
-    </div>
+    <S.PlaylistItem>
+      <S.PlaylistTrack>
+        <S.TrackTitle>
+          <Styled.TrackTitleImageSkeleton />
+          <Styled.TrackTitleTextSkeleton />
+        </S.TrackTitle>
+        <Styled.TrackAuthorSkeleton />
+        <Styled.TrackAlbumSkeleton />
+      </S.PlaylistTrack>
+    </S.PlaylistItem>
   )
 }
 

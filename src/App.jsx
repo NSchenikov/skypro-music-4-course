@@ -1,5 +1,3 @@
-import logo from './logo.svg'
-import './App.css'
 import '../src/components/player/player.js'
 import Player from '../src/components/player/player.js'
 import Playlist from './components/playlist/playlist.js'
@@ -13,6 +11,7 @@ import SidebarSkeleton from './components/sidebarSkeleton/sidebarSkeleton.js'
 
 import React from 'react'
 import { useState, useEffect } from 'react'
+import * as S from './index.style'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -25,41 +24,42 @@ function App() {
   })
 
   return (
-    <div className="App">
-      <div className="wrapper">
-        <div className="container">
-          <main className="main">
+    <S.App>
+      <S.GlobalStyle />
+      <S.Wrapper>
+        <S.Container>
+          <S.Main>
             <MainNavMenu />
-            <div className="main__centerblock centerblock">
+            <S.MainCenterblock>
               <Search />
-              <h2 className="centerblock__h2">Треки</h2>
+              <S.CenterblockH2>Треки</S.CenterblockH2>
               <Filter />
-              <div className="centerblock__content">
-                <div className="content__title playlist-title">
-                  <div className="playlist-title__col col01">Трек</div>
-                  <div className="playlist-title__col col02">ИСПОЛНИТЕЛЬ</div>
-                  <div className="playlist-title__col col03">АЛЬБОМ</div>
-                  <div className="playlist-title__col col04">
-                    <svg className="playlist-title__svg" alt="time">
+              <S.CenterblockContent>
+                <S.ContentTitle>
+                  <S.Col01>Трек</S.Col01>
+                  <S.Col02>ИСПОЛНИТЕЛЬ</S.Col02>
+                  <S.Col03>АЛЬБОМ</S.Col03>
+                  <S.Col04>
+                    <S.PlaylistTitleSvg alt="time">
                       <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                    </svg>
-                  </div>
-                </div>
+                    </S.PlaylistTitleSvg>
+                  </S.Col04>
+                </S.ContentTitle>
                 {loading && <PlaylistSkeleton />}
                 {!loading && <Playlist />}
-              </div>
-            </div>
+              </S.CenterblockContent>
+            </S.MainCenterblock>
             {loading && <SidebarSkeleton />}
             {!loading && <Sidebar />}
-          </main>
+          </S.Main>
 
           {loading && <PlayerSkeleton />}
           {!loading && <Player />}
 
-          <footer className="footer"></footer>
-        </div>
-      </div>
-    </div>
+          <S.Footer />
+        </S.Container>
+      </S.Wrapper>
+    </S.App>
   )
 }
 

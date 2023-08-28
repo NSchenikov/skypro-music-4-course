@@ -1,9 +1,9 @@
-import './playlist.css'
 import PlaylistItem from '../playlistItem/playlistItem'
+import * as S from './playlist.style'
 
 function Playlist() {
   return (
-    <div className="content__playlist playlist">
+    <S.ContentPlaylist>
       <PlaylistItem
         trackTitle="Guilt"
         trackTitleExtra=""
@@ -74,7 +74,7 @@ function Playlist() {
         trackAlbum="Soundz Made in Romania"
         trackTime="3:36"
       />
-    </div>
+    </S.ContentPlaylist>
   )
 }
 
