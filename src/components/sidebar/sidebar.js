@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import * as S from './sidebar.style'
 
 function Sidebar() {
@@ -14,17 +15,17 @@ function Sidebar() {
       <S.SidebarBlock>
         <S.SidebarList>
           <S.SidebarItem>
-            <S.SidebarLink href="#">
+            <S.SidebarLink>
               <S.SidebarImg src="img/playlist01.png" alt="day's playlist" />
             </S.SidebarLink>
           </S.SidebarItem>
           <S.SidebarItem>
-            <S.SidebarLink href="#">
+            <S.SidebarLink>
               <S.SidebarImg src="img/playlist02.png" alt="day's playlist" />
             </S.SidebarLink>
           </S.SidebarItem>
           <S.SidebarItem>
-            <S.SidebarLink href="#">
+            <S.SidebarLink>
               <S.SidebarImg src="img/playlist03.png" alt="day's playlist" />
             </S.SidebarLink>
           </S.SidebarItem>

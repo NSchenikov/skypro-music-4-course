@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router-dom'
 import * as S from './mainNavMenu.style'
 
 const { useState } = React
@@ -23,13 +24,17 @@ function MainNavMenu() {
         <S.NavMenu>
           <S.MenuList>
             <S.MenuItem>
-              <S.MenuLink href="#">Главное</S.MenuLink>
+              <Link to="/">
+                <S.MenuLink>Главное</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
-              <S.MenuLink href="#">Мой плейлист</S.MenuLink>
+              <Link to="/favourites">
+                <S.MenuLink>Мой плейлист</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
-              <S.MenuLink href="../signin.html">Войти</S.MenuLink>
+              <S.MenuLink>Войти</S.MenuLink>
             </S.MenuItem>
           </S.MenuList>
         </S.NavMenu>

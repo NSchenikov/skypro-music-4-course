@@ -10,7 +10,7 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/category" element={<Category />} />
+      <Route path="/category/:id" element={<Category />} />
       <Route path="/favourites" element={<Favourites />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
