@@ -2,11 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import * as S from './mainNavMenu.style'
+import { useNavigate } from 'react-router-dom'
 
 const { useState } = React
 
 function MainNavMenu() {
   const [visible, setVisible] = useState(false)
+  const [user, setUser] = useState(null)
+  const navigate = useNavigate()
+  const handleLogin = () => setUser(localStorage.setItem('user', 'token'))
+  const handleLogout = () => {
+    setUser(localStorage.clear())
+    navigate('/login', { replace: true })
+  }
 
   const toggleVisibility = () => setVisible(!visible)
 
@@ -33,8 +41,12 @@ function MainNavMenu() {
                 <S.MenuLink>Мой плейлист</S.MenuLink>
               </Link>
             </S.MenuItem>
-            <S.MenuItem>
-              <S.MenuLink>Войти</S.MenuLink>
+            <S.MenuItem user={user}>
+              {localStorage.getItem('user') ? (
+                <S.MenuLink onClick={handleLogout}>Выйти</S.MenuLink>
+              ) : (
+                <S.MenuLink onClick={handleLogin}>Войти</S.MenuLink>
+              )}
             </S.MenuItem>
           </S.MenuList>
         </S.NavMenu>
