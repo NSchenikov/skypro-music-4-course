@@ -1,9 +1,7 @@
-import * as S from './favourites.style'
-
 export const Favourites = () => {
   return (
-    <S.Bg>
+    <div>
       <h1>FavouritesPage</h1>
-    </S.Bg>
+    </div>
   )
 }
