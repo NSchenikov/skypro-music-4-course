@@ -12,16 +12,20 @@ import SidebarSkeleton from '../../components/sidebarSkeleton/sidebarSkeleton'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import * as S from './index.style'
+import { getTracks } from '../../api'
 
 export const Main = () => {
+  const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timerId = setInterval(() => setLoading(false), 5000)
-    return () => {
-      clearInterval(timerId)
-    }
-  })
+    getTracks()
+      .then((tracks) => {
+        setTracks(tracks)
+        console.log(tracks)
+      })
+      .then(() => setLoading(false))
+  }, [])
 
   return (
     <S.App>
@@ -46,7 +50,7 @@ export const Main = () => {
                   </S.Col04>
                 </S.ContentTitle>
                 {loading && <PlaylistSkeleton />}
-                {!loading && <Playlist />}
+                {!loading && <Playlist tracks={tracks} />}
               </S.CenterblockContent>
             </S.MainCenterblock>
             {loading && <SidebarSkeleton />}
