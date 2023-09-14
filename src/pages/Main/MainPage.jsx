@@ -17,6 +17,7 @@ import { getTracks } from '../../api'
 export const Main = () => {
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(true)
+  const [fetchTracksError, setFetchTracksError] = useState(null)
 
   useEffect(() => {
     getTracks()
@@ -25,6 +26,10 @@ export const Main = () => {
         console.log(tracks)
       })
       .then(() => setLoading(false))
+      .catch((error) => {
+        setFetchTracksError(error.message)
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -49,6 +54,9 @@ export const Main = () => {
                     </S.PlaylistTitleSvg>
                   </S.Col04>
                 </S.ContentTitle>
+                <p style={{ color: 'red', position: 'relative' }}>
+                  {fetchTracksError}
+                </p>
                 {loading && <PlaylistSkeleton />}
                 {!loading && <Playlist tracks={tracks} />}
               </S.CenterblockContent>
