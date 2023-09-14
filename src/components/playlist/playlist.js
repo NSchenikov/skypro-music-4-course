@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import * as S from './playlist.style'
 
-function Playlist({ tracks }) {
+function Playlist({ tracks, setCurrentTrack, currentTrack }) {
   return (
     <S.ContentPlaylist>
       {tracks.map((track) => {
         return (
-          <S.PlaylistItem key={track.id}>
+          <S.PlaylistItem key={track.id} onClick={() => setCurrentTrack(track)}>
             <S.PlaylistTrack>
               <S.TrackTitle>
                 <S.TrackTitleImage>
@@ -14,7 +15,7 @@ function Playlist({ tracks }) {
                   </S.TrackTitleSvg>
                 </S.TrackTitleImage>
                 <S.TrackTitleText>
-                  <S.TrackTitleLink href="http://">
+                  <S.TrackTitleLink>
                     {track.name}
                     <S.TrackTitleSpan>
                       {/* {trackTitleExtra} */}
@@ -23,14 +24,10 @@ function Playlist({ tracks }) {
                 </S.TrackTitleText>
               </S.TrackTitle>
               <S.TrackAuthor>
-                <S.TrackAuthorLink href="http://">
-                  {track.author}
-                </S.TrackAuthorLink>
+                <S.TrackAuthorLink>{track.author}</S.TrackAuthorLink>
               </S.TrackAuthor>
               <S.TrackAlbum>
-                <S.TrackAlbumLink href="http://">
-                  {track.album}
-                </S.TrackAlbumLink>
+                <S.TrackAlbumLink>{track.album}</S.TrackAlbumLink>
               </S.TrackAlbum>
               <S.TrackTime>
                 <S.TrackTimeSvg alt="time">

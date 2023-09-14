@@ -32,6 +32,8 @@ export const Main = () => {
       })
   }, [])
 
+  const [currentTrack, setCurrentTrack] = useState(null)
+
   return (
     <S.App>
       <S.GlobalStyle />
@@ -58,7 +60,13 @@ export const Main = () => {
                   {fetchTracksError}
                 </p>
                 {loading && <PlaylistSkeleton />}
-                {!loading && <Playlist tracks={tracks} />}
+                {!loading && (
+                  <Playlist
+                    tracks={tracks}
+                    currentTrack={currentTrack}
+                    setCurrentTrack={setCurrentTrack}
+                  />
+                )}
               </S.CenterblockContent>
             </S.MainCenterblock>
             {loading && <SidebarSkeleton />}
@@ -66,7 +74,12 @@ export const Main = () => {
           </S.Main>
 
           {loading && <PlayerSkeleton />}
-          {!loading && <Player />}
+          {!loading && (
+            <Player
+              currentTrack={currentTrack}
+              setCurrentTrack={setCurrentTrack}
+            />
+          )}
 
           <S.Footer />
         </S.Container>
