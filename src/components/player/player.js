@@ -1,8 +1,9 @@
 import * as S from './player.style'
 
-function Player(currentTrack, setCurrentTrack) {
-  console.log(currentTrack) // по умолчанию null, но плеер все равно рендерится
+function Player(currentTrack) {
+  if (!currentTrack) return null
   if (currentTrack) {
+    // console.log(currentTrack)
     return (
       <S.Bar>
         <S.BarContent>
@@ -46,12 +47,12 @@ function Player(currentTrack, setCurrentTrack) {
                   </S.TrackPlayImage>
                   <S.TrackPlayAuthor>
                     <S.PlayAuthorLink href="http://">
-                      {currentTrack.name}
+                      {currentTrack.currentTrack.name}
                     </S.PlayAuthorLink>
                   </S.TrackPlayAuthor>
                   <S.TrackPlayAlbum>
                     <S.TrackPlayAlbumLink href="http://">
-                      {currentTrack.author}
+                      {currentTrack.currentTrack.author}
                     </S.TrackPlayAlbumLink>
                   </S.TrackPlayAlbum>
                 </S.TrackPlayContain>
@@ -91,7 +92,6 @@ function Player(currentTrack, setCurrentTrack) {
       </S.Bar>
     )
   }
-  if (!currentTrack) return null
 }
 
 export default Player

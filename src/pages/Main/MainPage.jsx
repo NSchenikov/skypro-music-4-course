@@ -23,7 +23,7 @@ export const Main = () => {
     getTracks()
       .then((tracks) => {
         setTracks(tracks)
-        console.log(tracks)
+        // console.log(tracks)
       })
       .then(() => setLoading(false))
       .catch((error) => {
@@ -61,11 +61,7 @@ export const Main = () => {
                 </p>
                 {loading && <PlaylistSkeleton />}
                 {!loading && (
-                  <Playlist
-                    tracks={tracks}
-                    currentTrack={currentTrack}
-                    setCurrentTrack={setCurrentTrack}
-                  />
+                  <Playlist tracks={tracks} setCurrentTrack={setCurrentTrack} />
                 )}
               </S.CenterblockContent>
             </S.MainCenterblock>
@@ -74,12 +70,7 @@ export const Main = () => {
           </S.Main>
 
           {loading && <PlayerSkeleton />}
-          {!loading && (
-            <Player
-              currentTrack={currentTrack}
-              setCurrentTrack={setCurrentTrack}
-            />
-          )}
+          {currentTrack && <Player currentTrack={currentTrack} />}
 
           <S.Footer />
         </S.Container>

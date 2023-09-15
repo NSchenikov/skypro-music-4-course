@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import * as S from './playlist.style'
 
-function Playlist({ tracks, setCurrentTrack, currentTrack }) {
+function Playlist({ tracks, setCurrentTrack }) {
   return (
     <S.ContentPlaylist>
       {tracks.map((track) => {
