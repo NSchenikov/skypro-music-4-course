@@ -12,16 +12,27 @@ import SidebarSkeleton from '../../components/sidebarSkeleton/sidebarSkeleton'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import * as S from './index.style'
+import { getTracks } from '../../api'
 
 export const Main = () => {
+  const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(true)
+  const [fetchTracksError, setFetchTracksError] = useState(null)
 
   useEffect(() => {
-    const timerId = setInterval(() => setLoading(false), 5000)
-    return () => {
-      clearInterval(timerId)
-    }
-  })
+    getTracks()
+      .then((tracks) => {
+        setTracks(tracks)
+        // console.log(tracks)
+      })
+      .then(() => setLoading(false))
+      .catch((error) => {
+        setFetchTracksError(error.message)
+        setLoading(false)
+      })
+  }, [])
+
+  const [currentTrack, setCurrentTrack] = useState(null)
 
   return (
     <S.App>
@@ -45,8 +56,13 @@ export const Main = () => {
                     </S.PlaylistTitleSvg>
                   </S.Col04>
                 </S.ContentTitle>
+                <p style={{ color: 'red', position: 'relative' }}>
+                  {fetchTracksError}
+                </p>
                 {loading && <PlaylistSkeleton />}
-                {!loading && <Playlist />}
+                {!loading && (
+                  <Playlist tracks={tracks} setCurrentTrack={setCurrentTrack} />
+                )}
               </S.CenterblockContent>
             </S.MainCenterblock>
             {loading && <SidebarSkeleton />}
@@ -54,7 +70,7 @@ export const Main = () => {
           </S.Main>
 
           {loading && <PlayerSkeleton />}
-          {!loading && <Player />}
+          {currentTrack && <Player currentTrack={currentTrack} />}
 
           <S.Footer />
         </S.Container>
