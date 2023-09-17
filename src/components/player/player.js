@@ -38,18 +38,12 @@ function Player(currentTrack) {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
-                      height="22"
-                      fill="currentColor"
-                      className="bi bi-pause"
-                      viewBox="0 0 16 16"
-                      id="IconChangeColor"
+                      height="19"
+                      viewBox="0 0 15 19"
+                      fill="none"
                     >
-                      {' '}
-                      <path
-                        d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"
-                        id="mainIconPathAttribute"
-                        fill="#737373"
-                      ></path>{' '}
+                      <rect width="5" height="19" fill="#D9D9D9" />
+                      <rect x="10" width="5" height="19" fill="#D9D9D9" />
                     </svg>
                   </S.PlayerBtnPlay>
                 ) : (
