@@ -1,9 +1,22 @@
+import { useState, useRef, useEffect } from 'react'
 import * as S from './player.style'
 
 function Player(currentTrack) {
   if (!currentTrack) return null
   if (currentTrack) {
+    const [isPlaying, setIsPlaying] = useState(false)
     // console.log(currentTrack)
+    const audioRef = useRef()
+    const togglePlayPause = () => {
+      setIsPlaying((prev) => !prev)
+    }
+    useEffect(() => {
+      if (isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
+      }
+    }, [isPlaying, audioRef])
     return (
       <S.Bar>
         <S.BarContent>
@@ -16,11 +29,36 @@ function Player(currentTrack) {
                     <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
                   </S.PlayerBtnPrevSvg>
                 </S.PlayerBtnPrev>
-                <S.PlayerBtnPlay className="_btn">
-                  <S.PlayerBtnPlaySvg alt="play">
-                    <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
-                  </S.PlayerBtnPlaySvg>
-                </S.PlayerBtnPlay>
+                {isPlaying ? (
+                  <S.PlayerBtnPlay
+                    audioRef={audioRef}
+                    onClick={togglePlayPause}
+                    className="_btn"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      fill="currentColor"
+                      className="bi bi-pause"
+                      viewBox="0 0 16 16"
+                      id="IconChangeColor"
+                    >
+                      {' '}
+                      <path
+                        d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"
+                        id="mainIconPathAttribute"
+                        fill="#737373"
+                      ></path>{' '}
+                    </svg>
+                  </S.PlayerBtnPlay>
+                ) : (
+                  <S.PlayerBtnPlay onClick={togglePlayPause} className="_btn">
+                    <S.PlayerBtnPlaySvg alt="play">
+                      <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
+                    </S.PlayerBtnPlaySvg>
+                  </S.PlayerBtnPlay>
+                )}
                 <S.PlayerBtnNext>
                   <S.PlayerBtnNextSvg alt="next">
                     <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
@@ -55,6 +93,10 @@ function Player(currentTrack) {
                       {currentTrack.currentTrack.author}
                     </S.TrackPlayAlbumLink>
                   </S.TrackPlayAlbum>
+                  <audio
+                    src={currentTrack.currentTrack.track_file}
+                    ref={audioRef}
+                  ></audio>
                 </S.TrackPlayContain>
 
                 <S.TrackPlayLikeDis>
