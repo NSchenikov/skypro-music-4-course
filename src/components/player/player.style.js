@@ -177,7 +177,7 @@ export const PlayerBtnPlaySvg = styled.svg`
 export const PlayerBtnRepeatSvg = styled.svg`
   width: 18px;
   height: 12px;
-  fill: transparent;
+  fill: grey;
   stroke: #696969;
 `
 
