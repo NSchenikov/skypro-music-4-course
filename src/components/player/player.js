@@ -58,6 +58,12 @@ function Player(currentTrack) {
       }
       playAnimationRef.current = requestAnimationFrame(repeat)
     }, [isPlaying, audioRef, repeat])
+    const [volume, setVolume] = useState(60)
+    useEffect(() => {
+      if (audioRef) {
+        audioRef.current.volume = volume / 100
+      }
+    }, [volume, audioRef])
     return (
       <S.Bar>
         <S.BarContent>
@@ -170,6 +176,10 @@ function Player(currentTrack) {
                     className="_btn"
                     type="range"
                     name="range"
+                    min={0}
+                    max={100}
+                    value={volume}
+                    onChange={(e) => setVolume(e.target.value)}
                   />
                 </S.VolumeProgress>
               </S.VolumeContent>
