@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import * as S from './player.style'
 
 function Player(currentTrack) {
   if (!currentTrack) return null
   if (currentTrack) {
     const [isPlaying, setIsPlaying] = useState(false)
-    // console.log(currentTrack)
     const audioRef = useRef()
     const togglePlayPause = () => {
       setIsPlaying((prev) => !prev)
@@ -17,10 +16,61 @@ function Player(currentTrack) {
         audioRef.current.pause()
       }
     }, [isPlaying, audioRef])
+    const progressBarRef = useRef()
+    const handleProgressChange = () => {
+      audioRef.current.currentTime = progressBarRef.current.value
+    }
+    const [timeProgress, setTimeProgress] = useState(0)
+    const [duration, setDuration] = useState(0)
+    const onLoadedMetadata = () => {
+      const seconds = audioRef.current.duration
+      setDuration(seconds)
+      progressBarRef.current.max = seconds
+    }
+    const formatTime = (time) => {
+      if (time && !isNaN(time)) {
+        const minutes = Math.floor(time / 60)
+        const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+        const seconds = Math.floor(time % 60)
+        const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+        return `${formatMinutes}:${formatSeconds}`
+      }
+      return '00:00'
+    }
+    const playAnimationRef = useRef()
+
+    const repeat = useCallback(() => {
+      const currentTime = audioRef.current.currentTime
+      setTimeProgress(currentTime)
+      progressBarRef.current.value = currentTime
+      progressBarRef.current.style.setProperty(
+        '--range-progress',
+        `${(progressBarRef.current.value / duration) * 100}%`,
+      )
+
+      playAnimationRef.current = requestAnimationFrame(repeat)
+    }, [audioRef, duration, progressBarRef, setTimeProgress])
+    useEffect(() => {
+      if (isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
+      }
+      playAnimationRef.current = requestAnimationFrame(repeat)
+    }, [isPlaying, audioRef, repeat])
     return (
       <S.Bar>
         <S.BarContent>
-          <S.BarPlayerProgress />
+          <S.Progress>
+            <S.TimeCurrent>{formatTime(timeProgress)}</S.TimeCurrent>
+            <S.BarPlayerProgress
+              type="range"
+              defaultValue="0"
+              ref={progressBarRef}
+              onChange={handleProgressChange}
+            />
+            <S.Time>{formatTime(duration)}</S.Time>
+          </S.Progress>
           <S.BarPlayerBlock>
             <S.BarPlayer>
               <S.PlayerControls>
@@ -90,6 +140,7 @@ function Player(currentTrack) {
                   <audio
                     src={currentTrack.currentTrack.track_file}
                     ref={audioRef}
+                    onLoadedMetadata={onLoadedMetadata}
                   ></audio>
                 </S.TrackPlayContain>
 
