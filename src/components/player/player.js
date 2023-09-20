@@ -74,6 +74,9 @@ function Player(currentTrack) {
         audioRef.current.loop = true
       }
     }
+    const notRealized = () => {
+      alert('Еще не реализовано')
+    }
     return (
       <S.Bar>
         <S.BarContent>
@@ -90,7 +93,7 @@ function Player(currentTrack) {
           <S.BarPlayerBlock>
             <S.BarPlayer>
               <S.PlayerControls>
-                <S.PlayerBtnPrev>
+                <S.PlayerBtnPrev onClick={notRealized}>
                   <S.PlayerBtnPrevSvg alt="prev">
                     <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
                   </S.PlayerBtnPrevSvg>
@@ -119,7 +122,7 @@ function Player(currentTrack) {
                     </S.PlayerBtnPlaySvg>
                   </S.PlayerBtnPlay>
                 )}
-                <S.PlayerBtnNext>
+                <S.PlayerBtnNext onClick={notRealized}>
                   <S.PlayerBtnNextSvg alt="next">
                     <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
                   </S.PlayerBtnNextSvg>
@@ -158,7 +161,7 @@ function Player(currentTrack) {
                     </S.PlayerBtnRepeatSvg>
                   </S.PlayerBtnRepeat>
                 )}
-                <S.PlayerBtnShuffle className="_btn-icon">
+                <S.PlayerBtnShuffle onClick={notRealized} className="_btn-icon">
                   <S.PlayerBtnShuffleSvg alt="shuffle">
                     <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
                   </S.PlayerBtnShuffleSvg>

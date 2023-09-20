@@ -139,6 +139,7 @@ export const PlayerBtnPrev = styled.div`
   -ms-flex-align: center;
   align-items: center;
   margin-right: 23px;
+  cursor: pointer;
 `
 
 export const PlayerBtnPlay = styled(PlayerBtnPrev)`
