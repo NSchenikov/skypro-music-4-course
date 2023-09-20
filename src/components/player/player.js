@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import * as S from './player.style'
 
-function Player(currentTrack) {
+function Player({ currentTrack, isPlaying, setIsPlaying }) {
   if (!currentTrack) return null
   if (currentTrack) {
-    const [isPlaying, setIsPlaying] = useState(false)
     const audioRef = useRef()
     const togglePlayPause = () => {
-      setIsPlaying((prev) => !prev)
+      setIsPlaying(() => !isPlaying)
     }
     useEffect(() => {
       if (isPlaying) {
@@ -117,6 +116,7 @@ function Player(currentTrack) {
                   </S.PlayerBtnPlay>
                 ) : (
                   <S.PlayerBtnPlay onClick={togglePlayPause} className="_btn">
+                    {' '}
                     <S.PlayerBtnPlaySvg alt="play">
                       <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
                     </S.PlayerBtnPlaySvg>
@@ -177,16 +177,16 @@ function Player(currentTrack) {
                   </S.TrackPlayImage>
                   <S.TrackPlayAuthor>
                     <S.PlayAuthorLink href="http://">
-                      {currentTrack.currentTrack.name}
+                      {currentTrack.name}
                     </S.PlayAuthorLink>
                   </S.TrackPlayAuthor>
                   <S.TrackPlayAlbum>
                     <S.TrackPlayAlbumLink href="http://">
-                      {currentTrack.currentTrack.author}
+                      {currentTrack.author}
                     </S.TrackPlayAlbumLink>
                   </S.TrackPlayAlbum>
                   <audio
-                    src={currentTrack.currentTrack.track_file}
+                    src={currentTrack.track_file}
                     ref={audioRef}
                     onLoadedMetadata={onLoadedMetadata}
                     onEnded={doesItRepeats}

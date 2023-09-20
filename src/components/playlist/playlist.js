@@ -1,11 +1,18 @@
 import * as S from './playlist.style'
 
-function Playlist({ tracks, setCurrentTrack }) {
+function Playlist({ tracks, setCurrentTrack, isPlaying, setIsPlaying }) {
   return (
     <S.ContentPlaylist>
       {tracks.map((track) => {
         return (
-          <S.PlaylistItem key={track.id} onClick={() => setCurrentTrack(track)}>
+          <S.PlaylistItem
+            key={track.id}
+            onClick={() => {
+              setCurrentTrack(track)
+              isPlaying = true
+              setIsPlaying(isPlaying)
+            }}
+          >
             <S.PlaylistTrack>
               <S.TrackTitle>
                 <S.TrackTitleImage>
