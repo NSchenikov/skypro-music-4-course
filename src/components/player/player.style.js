@@ -17,10 +17,76 @@ export const BarContent = styled.div`
   flex-direction: column;
 `
 
-export const BarPlayerProgress = styled.div`
+export const Progress = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const TimeCurrent = styled.div`
+  align-self: end;
+`
+
+export const BarPlayerProgress = styled.input`
   width: 100%;
   height: 5px;
   background: #2e2e2e;
+
+  --progress-height: 8px;
+  --progress-color: #b672ff;
+  --progress-color: ${(props) => props.$color ?? '#b672ff'};
+
+  --progress-bg-color: #2e2e2e;
+
+  margin: 0;
+  width: 100%;
+  height: var(--progress-height);
+  -webkit-appearance: none;
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+
+  &::-webkit-slider-runnable-track {
+    position: relative;
+    height: var(--progress-height);
+    background: var(--progress-bg-color);
+  }
+  &::-webkit-slider-thumb {
+    --thumb-height: 1px;
+    --thumb-width: 1px;
+    position: relative;
+    -webkit-appearance: none;
+    width: var(--thumb-width, var(--thumb-height));
+    box-shadow: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0
+      100vmax var(--progress-color);
+  }
+  &::-webkit-slider-runnable-track {
+    background: var(--progress-bg-color);
+  }
+
+  /* FF */
+  &::-moz-range-track {
+    width: 100%;
+    height: var(--progress-height);
+    background: var(--progress-bg-color);
+    border: none;
+    border-radius: 0px;
+  }
+  &::-moz-range-thumb {
+    border: none;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background: transparent;
+  }
+  &::-moz-range-progress {
+    background-color: var(--progress-color);
+    height: var(--progress-height);
+  }
+`
+
+export const Time = styled.div`
+  align-self: end;
 `
 
 export const BarPlayerBlock = styled.div`
@@ -73,6 +139,7 @@ export const PlayerBtnPrev = styled.div`
   -ms-flex-align: center;
   align-items: center;
   margin-right: 23px;
+  cursor: pointer;
 `
 
 export const PlayerBtnPlay = styled(PlayerBtnPrev)`
@@ -111,7 +178,7 @@ export const PlayerBtnPlaySvg = styled.svg`
 export const PlayerBtnRepeatSvg = styled.svg`
   width: 18px;
   height: 12px;
-  fill: transparent;
+  fill: grey;
   stroke: #696969;
 `
 

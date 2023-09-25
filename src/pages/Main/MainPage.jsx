@@ -18,6 +18,7 @@ export const Main = () => {
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(true)
   const [fetchTracksError, setFetchTracksError] = useState(null)
+  let [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
     getTracks()
@@ -61,7 +62,12 @@ export const Main = () => {
                 </p>
                 {loading && <PlaylistSkeleton />}
                 {!loading && (
-                  <Playlist tracks={tracks} setCurrentTrack={setCurrentTrack} />
+                  <Playlist
+                    tracks={tracks}
+                    setCurrentTrack={setCurrentTrack}
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                  />
                 )}
               </S.CenterblockContent>
             </S.MainCenterblock>
@@ -70,7 +76,13 @@ export const Main = () => {
           </S.Main>
 
           {loading && <PlayerSkeleton />}
-          {currentTrack && <Player currentTrack={currentTrack} />}
+          {currentTrack && (
+            <Player
+              currentTrack={currentTrack}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+            />
+          )}
 
           <S.Footer />
         </S.Container>
