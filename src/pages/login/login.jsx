@@ -21,11 +21,9 @@ export const Login = () => {
       <div className="container-enter">
         <div className="modal__block">
           <form className="modal__form-login" action="#">
-            <a href="../">
-              <div className="modal__logo">
-                <img src="../img/logo_modal.png" alt="logo" />
-              </div>
-            </a>
+            <div className="modal__logo">
+              <img src="../img/logo_modal.png" alt="logo" />
+            </div>
             <input
               className="modal__input login"
               type="text"
@@ -40,7 +38,7 @@ export const Login = () => {
             />
             <button onClick={setUser} className="modal__btn-enter">
               {/* <a href="../index.html">Войти</a> */}
-              <a>Войти</a>
+              Войти
             </button>
             <Link to="/register">
               <button className="modal__btn-signup">Зарегистрироваться</button>
