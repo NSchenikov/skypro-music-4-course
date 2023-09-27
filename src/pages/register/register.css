@@ -206,3 +206,6 @@ body {
   -ms-flex-pack: center;
   justify-content: center;
 }
+.error {
+  color: red;
+}

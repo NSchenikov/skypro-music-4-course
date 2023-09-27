@@ -6,17 +6,29 @@ import './register.css'
 export const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+  const errorDiv = error ? <div className="error">{error}</div> : ''
   const handleSubmit = (event) => {
     event.preventDefault()
+    setError(null)
     console.log('submit')
     registerUser(email, password)
+      .then((response) => {
+        if (response.status === 400) {
+          setError(response.error)
+          console.log(error) //null
+          throw new Error('Такой пользователь уже существует')
+        }
+        return response.json()
+      })
+      .then((json) => console.log(json))
+      .then(() => console.log('API регистрации сработало'))
+    // .catch((err) => {
+    //   setError(err.message)
+    // })
   }
-  // registerUser()
-  return (
-    // <div>
-    //   <h1>RegisterPage</h1>
-    // </div>
 
+  return (
     <div className="wrapper">
       <div className="container-signup">
         <div className="modal__block">
@@ -52,6 +64,7 @@ export const Register = () => {
             </button>
             {/* </Link> */}
           </form>
+          {errorDiv}
         </div>
       </div>
     </div>
