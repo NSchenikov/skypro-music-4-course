@@ -7,26 +7,24 @@ export const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-  const errorDiv = error ? <div className="error">{error}</div> : ''
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const validateForm = () => password === confirmPassword
+
   const handleSubmit = (event) => {
     event.preventDefault()
-    setError(null)
-    console.log('submit')
-    registerUser(email, password)
-      .then((response) => {
-        if (response.status === 400) {
-          setError(response.error)
-          console.log(error) //null
-          throw new Error('Такой пользователь уже существует')
-        }
-        return response.json()
+    const valForm = validateForm()
+    if (valForm) {
+      setError(null)
+      console.log('submit')
+      registerUser(email, password).catch((error) => {
+        setError(error.message)
+        console.log(error.message)
       })
-      .then((json) => console.log(json))
-      .then(() => console.log('API регистрации сработало'))
-    // .catch((err) => {
-    //   setError(err.message)
-    // })
+    } else {
+      event.preventDefault()
+    }
   }
+  const errorDiv = error ? <div className="error">{error}</div> : ''
 
   return (
     <div className="wrapper">
@@ -57,14 +55,19 @@ export const Register = () => {
               type="password"
               name="password"
               placeholder="Повторите пароль"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            {/* <Link to="/login"> */}
+            <div className="possibleError">
+              {!validateForm() && (
+                <p className="error">Введенные пароли не совпадают</p>
+              )}
+              {errorDiv}
+            </div>
             <button className="modal__btn-signup-ent">
               Зарегистрироваться
             </button>
-            {/* </Link> */}
           </form>
-          {errorDiv}
         </div>
       </div>
     </div>

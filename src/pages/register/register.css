@@ -206,6 +206,10 @@ body {
   -ms-flex-pack: center;
   justify-content: center;
 }
+.possibleError {
+  height: 30px;
+}
 .error {
   color: red;
+  font-size: xx-small;
 }
