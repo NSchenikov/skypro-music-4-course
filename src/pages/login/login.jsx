@@ -1,26 +1,40 @@
 import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { loginUser, getToken } from '../../api'
 import './login.css'
 
 export const Login = () => {
   const navigate = useNavigate()
-  const setUser = () => {
-    localStorage.setItem('user', 'token')
-    // user = true
+  const setUser = (user, token) => {
+    localStorage.setItem(user, token)
     navigate('/', { replace: true })
   }
-  return (
-    // <div>
-    //   <h1>Страница логина</h1>
-    //   <button onClick={setUser}>Войти</button>
-    //   <Link to="/register">
-    //     <div>Перейти к регистрации</div>
-    //   </Link>
-    // </div>
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setError(null)
+    console.log('submited form')
+    loginUser(email, password).catch((error) => {
+      setError(error.message)
+      console.log(error.message)
+    })
+    getToken(email, password)
+      .then((res) => setUser('user', res.access))
+      .catch((error) => {
+        setError(error.message)
+        console.log(error.message)
+      })
+  }
+
+  const errorDiv = error ? <div className="error">{error}</div> : ''
+  return (
     <div className="wrapper">
       <div className="container-enter">
         <div className="modal__block">
-          <form className="modal__form-login" action="#">
+          <form className="modal__form-login" onSubmit={handleSubmit}>
             <div className="modal__logo">
               <img src="../img/logo_modal.png" alt="logo" />
             </div>
@@ -29,17 +43,19 @@ export const Login = () => {
               type="text"
               name="login"
               placeholder="Почта"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               className="modal__input password"
               type="password"
               name="password"
               placeholder="Пароль"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={setUser} className="modal__btn-enter">
-              {/* <a href="../index.html">Войти</a> */}
-              Войти
-            </button>
+            <div className="possibleError">{errorDiv}</div>
+            <button className="modal__btn-enter">Войти</button>
             <Link to="/register">
               <button className="modal__btn-signup">Зарегистрироваться</button>
             </Link>

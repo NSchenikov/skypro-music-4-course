@@ -194,6 +194,8 @@ body {
 }
 
 .modal__btn-enter {
+  /* width: 278px;
+  height: 52px; */
   width: 100%;
   height: 100%;
   font-style: normal;
@@ -258,4 +260,12 @@ body {
 
 .login {
   margin-bottom: 30px;
+}
+
+.possibleError {
+  height: 20px;
+}
+.error {
+  color: red;
+  font-size: xx-small;
 }
