@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { registerUser, getToken } from '../../api'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Contexts/AuthContext'
 import './register.css'
 
 export const Register = () => {
@@ -11,6 +12,7 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const validateForm = () => password === confirmPassword
+  const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth()
   const setUser = (user, token) => {
     localStorage.setItem(user, token)
     navigate('/', { replace: true })
@@ -25,7 +27,12 @@ export const Register = () => {
       registerUser(email, password)
         .then(() => {
           getToken(email, password)
-            .then((res) => setUser('user', res.access))
+            .then((res) => {
+              setUser('user', res.access)
+              setIsLoggedIn(true)
+              // setAuthUser({ username: email })
+              setAuthUser(email)
+            })
             .then(() => setLoading(false))
         })
         .catch((error) => {

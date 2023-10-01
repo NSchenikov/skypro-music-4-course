@@ -1,18 +1,34 @@
 import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { loginUser, getToken } from '../../api'
+import { useAuth } from '../../Contexts/AuthContext'
 import './login.css'
 
 export const Login = () => {
   const navigate = useNavigate()
-  const setUser = (user, token) => {
-    localStorage.setItem(user, token)
-    navigate('/', { replace: true })
-  }
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth()
+  // useEffect(() => {
+  //   const subscribe = AuthService.subscribe((user) => {
+  //     if (user) {
+  //       setIsLoggedIn(true)
+  //       setAuthUser(user)
+  //     } else {
+  //       setIsLoggedIn(false)
+  //       setAuthUser(null)
+  //     }
+  //   })
+  //   return subscribe
+  // })
+  const setUser = (user, token) => {
+    localStorage.setItem(user, token)
+    navigate('/', { replace: true })
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -26,6 +42,9 @@ export const Login = () => {
     getToken(email, password)
       .then((res) => {
         setUser('user', res.access)
+        setIsLoggedIn(true)
+        // setAuthUser({ username: email })
+        setAuthUser(email)
         setLoading(false)
       })
       .catch((error) => {
