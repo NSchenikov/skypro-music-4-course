@@ -12,9 +12,11 @@ export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setLoading(true)
     setError(null)
     console.log('submited form')
     loginUser(email, password).catch((error) => {
@@ -22,9 +24,13 @@ export const Login = () => {
       console.log(error.message)
     })
     getToken(email, password)
-      .then((res) => setUser('user', res.access))
+      .then((res) => {
+        setUser('user', res.access)
+        setLoading(false)
+      })
       .catch((error) => {
         setError(error.message)
+        setLoading(false)
         console.log(error.message)
       })
   }
@@ -55,7 +61,9 @@ export const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="possibleError">{errorDiv}</div>
-            <button className="modal__btn-enter">Войти</button>
+            <button disabled={loading} className="modal__btn-enter">
+              Войти
+            </button>
             <Link to="/register">
               <button className="modal__btn-signup">Зарегистрироваться</button>
             </Link>
