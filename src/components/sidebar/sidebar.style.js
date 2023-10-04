@@ -29,7 +29,6 @@ export const SidebarPersonalName = styled.p`
   line-height: 24px;
   color: #ffffff;
   margin-right: 16px;
-  display: none;
 `
 
 export const SidebarIcon = styled.div`

@@ -64,6 +64,7 @@ export const MenuLink = styled.div`
   line-height: 24px;
   display: flex;
   justify-content: flex-start;
+  cursor: pointer;
 `
 
 // export const  = styled.div``

@@ -1,15 +1,25 @@
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Contexts/AuthContext'
 import * as S from './sidebar.style'
 
 export const categories = [1, 2, 3]
 
 function Sidebar() {
+  const navigate = useNavigate()
+  const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth()
+  const handleLogout = () => {
+    localStorage.clear()
+    setIsLoggedIn(false)
+    setAuthUser(null)
+    navigate('/login', { replace: true })
+  }
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
-        <S.SidebarPersonalName>Sergey.Ivanov</S.SidebarPersonalName>
+        <S.SidebarPersonalName>{authUser}</S.SidebarPersonalName>
         <S.SidebarIcon>
-          <S.Logout alt="logout">
+          <S.Logout onClick={handleLogout} alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout"></use>
           </S.Logout>
         </S.SidebarIcon>
