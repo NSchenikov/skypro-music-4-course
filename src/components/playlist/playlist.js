@@ -1,9 +1,15 @@
 import * as S from './playlist.style'
 
-function Playlist({ tracks, setCurrentTrack, isPlaying, setIsPlaying }) {
+function Playlist({
+  tracks,
+  setCurrentTrack,
+  isPlaying,
+  setIsPlaying,
+  setTrackIndex,
+}) {
   return (
     <S.ContentPlaylist>
-      {tracks.map((track) => {
+      {tracks.map((track, index) => {
         return (
           <S.PlaylistItem
             key={track.id}
@@ -11,6 +17,7 @@ function Playlist({ tracks, setCurrentTrack, isPlaying, setIsPlaying }) {
               setCurrentTrack(track)
               isPlaying = true
               setIsPlaying(isPlaying)
+              setTrackIndex(index)
             }}
           >
             <S.PlaylistTrack>

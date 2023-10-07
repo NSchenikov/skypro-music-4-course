@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import * as S from './player.style'
 
-function Player({ currentTrack, isPlaying, setIsPlaying }) {
+function Player({
+  currentTrack,
+  isPlaying,
+  setIsPlaying,
+  tracks,
+  setCurrentTrack,
+  trackIndex,
+  setTrackIndex,
+}) {
   if (!currentTrack) return null
   if (currentTrack) {
     const audioRef = useRef()
@@ -76,6 +84,26 @@ function Player({ currentTrack, isPlaying, setIsPlaying }) {
     const notRealized = () => {
       alert('Еще не реализовано')
     }
+
+    const handlePrevious = () => {
+      if (trackIndex === 0) {
+        let lastTrackIndex = tracks.length - 1
+        setTrackIndex(lastTrackIndex)
+        setCurrentTrack(tracks[lastTrackIndex])
+      } else {
+        setTrackIndex((prev) => prev - 1)
+        setCurrentTrack(tracks[trackIndex - 1])
+      }
+    }
+    const handleNext = () => {
+      if (trackIndex >= tracks.length - 1) {
+        setTrackIndex(0)
+        setCurrentTrack(tracks[0])
+      } else {
+        setTrackIndex((prev) => prev + 1)
+        setCurrentTrack(tracks[trackIndex + 1])
+      }
+    }
     return (
       <S.Bar>
         <S.BarContent>
@@ -92,7 +120,7 @@ function Player({ currentTrack, isPlaying, setIsPlaying }) {
           <S.BarPlayerBlock>
             <S.BarPlayer>
               <S.PlayerControls>
-                <S.PlayerBtnPrev onClick={notRealized}>
+                <S.PlayerBtnPrev onClick={handlePrevious}>
                   <S.PlayerBtnPrevSvg alt="prev">
                     <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
                   </S.PlayerBtnPrevSvg>
@@ -122,7 +150,7 @@ function Player({ currentTrack, isPlaying, setIsPlaying }) {
                     </S.PlayerBtnPlaySvg>
                   </S.PlayerBtnPlay>
                 )}
-                <S.PlayerBtnNext onClick={notRealized}>
+                <S.PlayerBtnNext onClick={handleNext}>
                   <S.PlayerBtnNextSvg alt="next">
                     <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
                   </S.PlayerBtnNextSvg>

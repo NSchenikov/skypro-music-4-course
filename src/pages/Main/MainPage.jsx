@@ -33,7 +33,9 @@ export const Main = () => {
       })
   }, [])
 
-  const [currentTrack, setCurrentTrack] = useState(null)
+  // const [currentTrack, setCurrentTrack] = useState(null)
+  const [trackIndex, setTrackIndex] = useState(null)
+  const [currentTrack, setCurrentTrack] = useState(tracks[0])
 
   return (
     <S.App>
@@ -67,6 +69,7 @@ export const Main = () => {
                     setCurrentTrack={setCurrentTrack}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
+                    setTrackIndex={setTrackIndex}
                   />
                 )}
               </S.CenterblockContent>
@@ -81,6 +84,10 @@ export const Main = () => {
               currentTrack={currentTrack}
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
+              tracks={tracks}
+              setCurrentTrack={setCurrentTrack}
+              trackIndex={trackIndex}
+              setTrackIndex={setTrackIndex}
             />
           )}
 
