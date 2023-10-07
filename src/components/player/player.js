@@ -79,6 +79,8 @@ function Player({
     const doesItRepeats = () => {
       if (isRepeating) {
         audioRef.current.loop = true
+      } else {
+        handleNext()
       }
     }
     const notRealized = () => {
