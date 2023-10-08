@@ -8,13 +8,6 @@ function Playlist({
   setIsPlaying,
   setTrackIndex,
 }) {
-  // const trks = tracks
-  // const newTracks = trks.map((obj) => {
-  //   return {
-  //     ...trks,
-  //     isanimated: false,
-  //   }
-  // })
   return (
     <S.ContentPlaylist>
       {tracks.map((track, index) => {

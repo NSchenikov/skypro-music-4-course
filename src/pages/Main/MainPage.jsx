@@ -13,6 +13,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import * as S from './index.style'
 import { getTracks } from '../../api'
+import { useSelector, useDispatch } from 'react-redux'
+import { setChoosedTrack, setPlaylist } from '../../store/tracksSlice'
 
 export const Main = () => {
   const [tracks, setTracks] = useState([])
@@ -36,6 +38,13 @@ export const Main = () => {
   // const [currentTrack, setCurrentTrack] = useState(null)
   const [trackIndex, setTrackIndex] = useState(null)
   const [currentTrack, setCurrentTrack] = useState(tracks[0])
+
+  const currentTrk = useSelector((state) => state.trks)
+  const dispatch = useDispatch()
+  const addSong = () => dispatch(setChoosedTrack(currentTrack))
+  const addPlayList = () => dispatch(setPlaylist('mainPlaylist'))
+  addSong()
+  addPlayList()
 
   return (
     <S.App>
