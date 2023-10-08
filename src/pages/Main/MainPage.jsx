@@ -67,6 +67,7 @@ export const Main = () => {
                   <Playlist
                     tracks={tracks}
                     setCurrentTrack={setCurrentTrack}
+                    currentTrack={currentTrack}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setTrackIndex={setTrackIndex}

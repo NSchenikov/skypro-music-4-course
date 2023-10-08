@@ -127,9 +127,6 @@ function Player({
           `рандомный индекс${ind}, установленный индекс ${trackIndex}`,
         )
       }
-      // else {
-      //   handleNext()
-      // }
     }
     return (
       <S.Bar>
