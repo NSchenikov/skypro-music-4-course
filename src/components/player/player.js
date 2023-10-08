@@ -91,9 +91,10 @@ function Player({
       if (playShuffle) {
         shuffled()
       } else if (trackIndex === 0) {
-        let lastTrackIndex = tracks.length - 1
-        setTrackIndex(lastTrackIndex)
-        setCurrentTrack(tracks[lastTrackIndex])
+        // let lastTrackIndex = tracks.length - 1
+        // setTrackIndex(lastTrackIndex)
+        // setCurrentTrack(tracks[lastTrackIndex])
+        return
       } else {
         setTrackIndex((prev) => prev - 1)
         setCurrentTrack(tracks[trackIndex - 1])
@@ -103,8 +104,9 @@ function Player({
       if (playShuffle) {
         shuffled()
       } else if (trackIndex >= tracks.length - 1) {
-        setTrackIndex(0)
-        setCurrentTrack(tracks[0])
+        // setTrackIndex(0)
+        // setCurrentTrack(tracks[0])
+        return
       } else {
         setTrackIndex((prev) => prev + 1)
         setCurrentTrack(tracks[trackIndex + 1])
