@@ -44,7 +44,9 @@ export const Main = () => {
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
   const addPlayList = () => dispatch(setPlaylist('mainPlaylist'))
   addSong()
-  addPlayList()
+  useEffect(() => {
+    addPlayList()
+  }, [currentTrack])
 
   return (
     <S.App>

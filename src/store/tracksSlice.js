@@ -16,7 +16,7 @@ const trackSlice = createSlice({
       }
     },
     setPlaylist(state, action) {
-      state.playlist[0] = action.payload
+      state.playlist.push(action.payload)
     },
   },
 })
