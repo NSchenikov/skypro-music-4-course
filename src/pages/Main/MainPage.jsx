@@ -42,7 +42,7 @@ export const Main = () => {
   const currentTrk = useSelector((state) => state.trks)
   const dispatch = useDispatch()
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
-  const addPlayList = () => dispatch(setPlaylist('mainPlaylist'))
+  const addPlayList = () => dispatch(setPlaylist(tracks))
   addSong()
   useEffect(() => {
     addPlayList()
