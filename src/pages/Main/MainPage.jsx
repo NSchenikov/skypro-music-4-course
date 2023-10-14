@@ -13,6 +13,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import * as S from './index.style'
 import { getTracks } from '../../api'
+import { useSelector, useDispatch } from 'react-redux'
+import { setChoosedTrack, setPlaylist } from '../../store/tracksSlice'
 
 export const Main = () => {
   const [tracks, setTracks] = useState([])
@@ -33,7 +35,18 @@ export const Main = () => {
       })
   }, [])
 
-  const [currentTrack, setCurrentTrack] = useState(null)
+  // const [currentTrack, setCurrentTrack] = useState(null)
+  const currentTrk = useSelector((state) => state.trk)
+  const [trackIndex, setTrackIndex] = useState(null)
+  const [currentTrack, setCurrentTrack] = useState(currentTrk)
+
+  const dispatch = useDispatch()
+  const addSong = () => dispatch(setChoosedTrack(currentTrack))
+  const addPlayList = () => dispatch(setPlaylist(tracks))
+  addSong()
+  useEffect(() => {
+    addPlayList()
+  }, [currentTrack])
 
   return (
     <S.App>
@@ -65,8 +78,10 @@ export const Main = () => {
                   <Playlist
                     tracks={tracks}
                     setCurrentTrack={setCurrentTrack}
+                    currentTrack={currentTrack}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
+                    setTrackIndex={setTrackIndex}
                   />
                 )}
               </S.CenterblockContent>
@@ -81,6 +96,10 @@ export const Main = () => {
               currentTrack={currentTrack}
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
+              tracks={tracks}
+              setCurrentTrack={setCurrentTrack}
+              trackIndex={trackIndex}
+              setTrackIndex={setTrackIndex}
             />
           )}
 

@@ -1,24 +1,42 @@
 import * as S from './playlist.style'
 
-function Playlist({ tracks, setCurrentTrack, isPlaying, setIsPlaying }) {
+function Playlist({
+  tracks,
+  setCurrentTrack,
+  currentTrack,
+  isPlaying,
+  setIsPlaying,
+  setTrackIndex,
+}) {
   return (
     <S.ContentPlaylist>
-      {tracks.map((track) => {
+      {tracks.map((track, index) => {
         return (
           <S.PlaylistItem
             key={track.id}
             onClick={() => {
               setCurrentTrack(track)
+              // setIsAnimate(true)
               isPlaying = true
               setIsPlaying(isPlaying)
+              setTrackIndex(index)
+              // track.isanimated = !track.isanimated
             }}
           >
             <S.PlaylistTrack>
               <S.TrackTitle>
                 <S.TrackTitleImage>
-                  <S.TrackTitleSvg alt="music">
-                    <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-                  </S.TrackTitleSvg>
+                  {currentTrack === track ? (
+                    <S.PlayingDot
+                      style={{
+                        animationPlayState: isPlaying ? 'running' : 'paused',
+                      }}
+                    ></S.PlayingDot>
+                  ) : (
+                    <S.TrackTitleSvg alt="music">
+                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                    </S.TrackTitleSvg>
+                  )}
                 </S.TrackTitleImage>
                 <S.TrackTitleText>
                   <S.TrackTitleLink>
