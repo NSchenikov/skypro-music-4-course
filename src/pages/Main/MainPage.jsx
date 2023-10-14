@@ -36,10 +36,10 @@ export const Main = () => {
   }, [])
 
   // const [currentTrack, setCurrentTrack] = useState(null)
+  const currentTrk = useSelector((state) => state.trk)
   const [trackIndex, setTrackIndex] = useState(null)
-  const [currentTrack, setCurrentTrack] = useState(tracks[0])
+  const [currentTrack, setCurrentTrack] = useState(currentTrk)
 
-  const currentTrk = useSelector((state) => state.trks)
   const dispatch = useDispatch()
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
   const addPlayList = () => dispatch(setPlaylist(tracks))
