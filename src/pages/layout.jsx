@@ -5,7 +5,7 @@ import Sidebar from '../components/sidebar/sidebar'
 import SidebarSkeleton from '../components/sidebarSkeleton/sidebarSkeleton'
 import PlayerSkeleton from '../components/playerSkeleton/playerSkeleton'
 import Player from '../components/player/player'
-import { getTracks } from '../api'
+import { getTracks, getMyTracks } from '../api'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setChoosedTrack, setPlaylist } from '../store/tracksSlice'
@@ -14,6 +14,7 @@ import { Outlet } from 'react-router-dom'
 
 export const Layout = () => {
   const [tracks, setTracks] = useState([])
+  const [myTracks, setMyTracks] = useState([])
   const [loading, setLoading] = useState(true)
   const [fetchTracksError, setFetchTracksError] = useState(null)
   let [isPlaying, setIsPlaying] = useState(false)
@@ -23,6 +24,17 @@ export const Layout = () => {
       .then((tracks) => {
         setTracks(tracks)
         // console.log(tracks)
+      })
+      .then(() => setLoading(false))
+      .catch((error) => {
+        setFetchTracksError(error.message)
+        setLoading(false)
+      })
+
+    getMyTracks()
+      .then((myTracks) => {
+        setMyTracks(myTracks)
+        console.log(myTracks)
       })
       .then(() => setLoading(false))
       .catch((error) => {
@@ -72,6 +84,8 @@ export const Layout = () => {
                     setTrackIndex,
                     fetchTracksError,
                     loading,
+                    myTracks,
+                    setMyTracks,
                   ]}
                 />
               </S.CenterblockContent>
