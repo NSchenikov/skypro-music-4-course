@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setChoosedTrack, setPlaylist } from '../store/tracksSlice'
 import * as S from './Main/index.style'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 export const Layout = () => {
   const [tracks, setTracks] = useState([])
@@ -18,6 +18,8 @@ export const Layout = () => {
   const [loading, setLoading] = useState(true)
   const [fetchTracksError, setFetchTracksError] = useState(null)
   let [isPlaying, setIsPlaying] = useState(false)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     getTracks()
@@ -34,9 +36,16 @@ export const Layout = () => {
     getMyTracks(localStorage.user)
       .then((myTracks) => {
         setMyTracks(myTracks)
+        // console.log(myTracks)
       })
       .then(() => setLoading(false))
       .catch((error) => {
+        if (
+          error.message === 'Данный токен недействителен для любого типа токена'
+        ) {
+          navigate('/login', { replace: true })
+          return
+        }
         setFetchTracksError(error.message)
         setLoading(false)
       })
