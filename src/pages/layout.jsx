@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setChoosedTrack, setPlaylist } from '../store/tracksSlice'
 import * as S from './Main/index.style'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 export const Layout = () => {
   const [tracks, setTracks] = useState([])
@@ -52,6 +52,7 @@ export const Layout = () => {
   useEffect(() => {
     addPlayList()
   }, [currentTrack])
+  const location = useLocation()
   return (
     <S.App>
       <S.GlobalStyle />
@@ -61,7 +62,9 @@ export const Layout = () => {
             <MainNavMenu />
             <S.MainCenterblock>
               <Search />
-              <S.CenterblockH2>Треки</S.CenterblockH2>
+              <S.CenterblockH2>
+                {location.pathname === '/' ? 'Треки' : 'Мои треки'}
+              </S.CenterblockH2>
               <Filter />
               <S.CenterblockContent>
                 <S.ContentTitle>
