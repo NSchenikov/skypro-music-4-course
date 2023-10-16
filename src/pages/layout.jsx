@@ -31,10 +31,9 @@ export const Layout = () => {
         setLoading(false)
       })
 
-    getMyTracks()
+    getMyTracks(localStorage.user)
       .then((myTracks) => {
         setMyTracks(myTracks)
-        console.log(myTracks)
       })
       .then(() => setLoading(false))
       .catch((error) => {
