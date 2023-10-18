@@ -18,6 +18,7 @@ export const Layout = () => {
   const [loading, setLoading] = useState(true)
   const [fetchTracksError, setFetchTracksError] = useState(null)
   let [isPlaying, setIsPlaying] = useState(false)
+  const [likesIndexes, setLikesIndexes] = useState([])
 
   const navigate = useNavigate()
 
@@ -50,6 +51,12 @@ export const Layout = () => {
         setLoading(false)
       })
   }, [])
+  useEffect(() => {
+    for (let myTrack of myTracks) {
+      setLikesIndexes((likesIndexes) => [...likesIndexes, myTrack.id])
+    }
+    // console.log('все лайкнутые', likesIndexes)
+  }, [myTracks])
   const currentTrk = useSelector((state) => state.trk)
   const [trackIndex, setTrackIndex] = useState(null)
   const [currentTrack, setCurrentTrack] = useState(currentTrk)
@@ -115,9 +122,11 @@ export const Layout = () => {
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               tracks={tracks}
+              myTracks={myTracks}
               setCurrentTrack={setCurrentTrack}
               trackIndex={trackIndex}
               setTrackIndex={setTrackIndex}
+              location={location}
             />
           )}
           <S.Footer />
