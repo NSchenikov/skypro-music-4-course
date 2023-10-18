@@ -55,7 +55,11 @@ export const Layout = () => {
   const [currentTrack, setCurrentTrack] = useState(currentTrk)
   const dispatch = useDispatch()
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
-  const addPlayList = () => dispatch(setPlaylist(tracks))
+  const addPlayList = () => {
+    location.pathname === '/'
+      ? dispatch(setPlaylist(tracks))
+      : dispatch(setPlaylist(myTracks))
+  }
   addSong()
   useEffect(() => {
     addPlayList()
