@@ -12,129 +12,129 @@ function Player({
   setTrackIndex,
   location,
 }) {
-  const Playing = (list) => {
-    if (!currentTrack) return null
-    if (currentTrack) {
-      const audioRef = useRef()
-      const togglePlayPause = () => {
-        setIsPlaying(() => !isPlaying)
+  if (!currentTrack) return null
+  if (currentTrack) {
+    let list
+    location.pathname === '/' ? (list = tracks) : (list = myTracks)
+    const audioRef = useRef()
+    const togglePlayPause = () => {
+      setIsPlaying(() => !isPlaying)
+    }
+    useEffect(() => {
+      if (isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
       }
-      useEffect(() => {
-        if (isPlaying) {
-          audioRef.current.play()
-        } else {
-          audioRef.current.pause()
-        }
-      }, [isPlaying, audioRef])
-      const progressBarRef = useRef()
-      const handleProgressChange = () => {
-        audioRef.current.currentTime = progressBarRef.current.value
+    }, [isPlaying, audioRef])
+    const progressBarRef = useRef()
+    const handleProgressChange = () => {
+      audioRef.current.currentTime = progressBarRef.current.value
+    }
+    const [timeProgress, setTimeProgress] = useState(0)
+    const [duration, setDuration] = useState(0)
+    const onLoadedMetadata = () => {
+      const seconds = audioRef.current.duration
+      setDuration(seconds)
+      progressBarRef.current.max = seconds
+    }
+    const formatTime = (time) => {
+      if (time && !isNaN(time)) {
+        const minutes = Math.floor(time / 60)
+        const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+        const seconds = Math.floor(time % 60)
+        const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+        return `${formatMinutes}:${formatSeconds}`
       }
-      const [timeProgress, setTimeProgress] = useState(0)
-      const [duration, setDuration] = useState(0)
-      const onLoadedMetadata = () => {
-        const seconds = audioRef.current.duration
-        setDuration(seconds)
-        progressBarRef.current.max = seconds
-      }
-      const formatTime = (time) => {
-        if (time && !isNaN(time)) {
-          const minutes = Math.floor(time / 60)
-          const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
-          const seconds = Math.floor(time % 60)
-          const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
-          return `${formatMinutes}:${formatSeconds}`
-        }
-        return '00:00'
-      }
-      const playAnimationRef = useRef()
+      return '00:00'
+    }
+    const playAnimationRef = useRef()
 
-      const repeat = useCallback(() => {
-        const currentTime = audioRef.current.currentTime
-        setTimeProgress(currentTime)
-        progressBarRef.current.value = currentTime
-        progressBarRef.current.style.setProperty(
-          '--range-progress',
-          `${(progressBarRef.current.value / duration) * 100}%`,
-        )
+    const repeat = useCallback(() => {
+      const currentTime = audioRef.current.currentTime
+      setTimeProgress(currentTime)
+      progressBarRef.current.value = currentTime
+      progressBarRef.current.style.setProperty(
+        '--range-progress',
+        `${(progressBarRef.current.value / duration) * 100}%`,
+      )
 
-        playAnimationRef.current = requestAnimationFrame(repeat)
-      }, [audioRef, duration, progressBarRef, setTimeProgress])
-      useEffect(() => {
-        if (isPlaying) {
-          audioRef.current.play()
-        } else {
-          audioRef.current.pause()
-        }
-        playAnimationRef.current = requestAnimationFrame(repeat)
-      }, [isPlaying, audioRef, repeat])
-      const [volume, setVolume] = useState(60)
-      useEffect(() => {
-        if (audioRef) {
-          audioRef.current.volume = volume / 100
-        }
-      }, [volume, audioRef])
-      let [isRepeating, setIsRepeating] = useState(false)
-      const toggleRepeating = () => {
-        audioRef.current.loop = !audioRef.current.loop
-        setIsRepeating(!isRepeating)
+      playAnimationRef.current = requestAnimationFrame(repeat)
+    }, [audioRef, duration, progressBarRef, setTimeProgress])
+    useEffect(() => {
+      if (isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
       }
-      const doesItRepeats = () => {
-        if (isRepeating) {
-          audioRef.current.loop = true
-        } else {
-          handleNext()
-        }
+      playAnimationRef.current = requestAnimationFrame(repeat)
+    }, [isPlaying, audioRef, repeat])
+    const [volume, setVolume] = useState(60)
+    useEffect(() => {
+      if (audioRef) {
+        audioRef.current.volume = volume / 100
       }
-      const notRealized = () => {
-        alert('Еще не реализовано')
-      }
-
-      const handlePrevious = () => {
-        if (playShuffle) {
-          shuffled()
-        } else if (trackIndex === 0) {
-          // let lastTrackIndex = tracks.length - 1
-          // setTrackIndex(lastTrackIndex)
-          // setCurrentTrack(tracks[lastTrackIndex])
-          return
-        } else {
-          setTrackIndex((prev) => prev - 1)
-          setCurrentTrack(list[trackIndex - 1])
-        }
-      }
-      const handleNext = () => {
-        if (playShuffle) {
-          shuffled()
-        } else if (trackIndex >= list.length - 1) {
-          // setTrackIndex(0)
-          // setCurrentTrack(tracks[0])
-          return
-        } else {
-          setTrackIndex((prev) => prev + 1)
-          setCurrentTrack(list[trackIndex + 1])
-        }
-      }
-      const [playShuffle, setIsPlayShuffle] = useState(false)
-      const getRandomSong = (max) => {
-        return Math.floor(Math.random() * max)
-      }
-      const shuffleOnChange = () => {
-        setIsPlayShuffle(!playShuffle)
-      }
-      const shuffled = () => {
-        if (playShuffle) {
-          let ind = getRandomSong(list.length)
-          setCurrentTrack(list[ind])
-          // setTrackIndex(ind)
-          trackIndex = ind
-          console.log(
-            `рандомный индекс${ind}, установленный индекс ${trackIndex}`,
-          )
-        }
+    }, [volume, audioRef])
+    let [isRepeating, setIsRepeating] = useState(false)
+    const toggleRepeating = () => {
+      audioRef.current.loop = !audioRef.current.loop
+      setIsRepeating(!isRepeating)
+    }
+    const doesItRepeats = () => {
+      if (isRepeating) {
+        audioRef.current.loop = true
+      } else {
+        handleNext()
       }
     }
-    location.pathname === '/' ? Playing(tracks) : Playing(myTracks)
+    const notRealized = () => {
+      alert('Еще не реализовано')
+    }
+
+    const handlePrevious = () => {
+      if (playShuffle) {
+        shuffled()
+      } else if (trackIndex === 0) {
+        // let lastTrackIndex = tracks.length - 1
+        // setTrackIndex(lastTrackIndex)
+        // setCurrentTrack(tracks[lastTrackIndex])
+        return
+      } else {
+        setTrackIndex((prev) => prev - 1)
+        setCurrentTrack(list[trackIndex - 1])
+      }
+    }
+    const handleNext = () => {
+      if (playShuffle) {
+        shuffled()
+      } else if (trackIndex >= list.length - 1) {
+        // setTrackIndex(0)
+        // setCurrentTrack(tracks[0])
+        return
+      } else {
+        setTrackIndex((prev) => prev + 1)
+        setCurrentTrack(list[trackIndex + 1])
+      }
+    }
+    const [playShuffle, setIsPlayShuffle] = useState(false)
+    const getRandomSong = (max) => {
+      return Math.floor(Math.random() * max)
+    }
+    const shuffleOnChange = () => {
+      setIsPlayShuffle(!playShuffle)
+    }
+    const shuffled = () => {
+      if (playShuffle) {
+        let ind = getRandomSong(list.length)
+        setCurrentTrack(list[ind])
+        // setTrackIndex(ind)
+        trackIndex = ind
+        console.log(
+          `рандомный индекс${ind}, установленный индекс ${trackIndex}`,
+        )
+      }
+    }
+
     return (
       <S.Bar>
         <S.BarContent>
