@@ -173,7 +173,7 @@ export const sendLike = async (accessToken, id) => {
   }
 }
 
-export const disLike = async (accessToken, id) => {
+export const sendDislike = async (accessToken, id) => {
   const response = await fetch(
     `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
     {

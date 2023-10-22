@@ -5,7 +5,7 @@ import Sidebar from '../components/sidebar/sidebar'
 import SidebarSkeleton from '../components/sidebarSkeleton/sidebarSkeleton'
 import PlayerSkeleton from '../components/playerSkeleton/playerSkeleton'
 import Player from '../components/player/player'
-import { getTracks, getMyTracks } from '../api'
+import { getTracks, getMyTracks, sendLike, sendDislike } from '../api'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setChoosedTrack, setPlaylist } from '../store/tracksSlice'
@@ -57,20 +57,13 @@ export const Layout = () => {
     }
     // console.log('все лайкнутые', likesIndexes)
   }, [myTracks])
+  // sendLike(localStorage.user, 29).then((res) => console.log(res))
   const currentTrk = useSelector((state) => state.trk)
   const [trackIndex, setTrackIndex] = useState(null)
   const [currentTrack, setCurrentTrack] = useState(currentTrk)
   const dispatch = useDispatch()
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
-  // const addPlayList = () => {
-  //   location.pathname === '/'
-  //     ? dispatch(setPlaylist(tracks))
-  //     : dispatch(setPlaylist(myTracks))
-  // }
   addSong()
-  // useEffect(() => {
-  //   addPlayList()
-  // }, [currentTrack])
   const location = useLocation()
 
   return (
@@ -100,6 +93,7 @@ export const Layout = () => {
                 <Outlet
                   context={[
                     tracks,
+                    setTracks,
                     setCurrentTrack,
                     currentTrack,
                     isPlaying,
@@ -110,6 +104,8 @@ export const Layout = () => {
                     myTracks,
                     setMyTracks,
                     location,
+                    likesIndexes,
+                    setLikesIndexes,
                   ]}
                 />
               </S.CenterblockContent>

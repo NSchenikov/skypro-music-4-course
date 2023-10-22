@@ -13,8 +13,6 @@ function Player({
   setTrackIndex,
   location,
 }) {
-  // console.log(playlistChange)
-  // ;[playlistChange, setPlaylistChange] = useState(false)
   let list = tracks
   const getPlaylistFromStore = () => {
     list = useSelector((state) => state.track.playlist)
@@ -23,28 +21,7 @@ function Player({
 
   if (!currentTrack) return null
   if (currentTrack) {
-    // if (location.pathname === '/') {
     getPlaylistFromStore()
-    // } else {
-    //   getPlaylistFromStore()
-    //   if (isPlaying) {
-    //     list = tracks
-    //   }
-
-    //   if (isPlaying && location.pathname === '/favourites') {
-    //     list = tracks
-    //   }
-    // }
-
-    // useEffect(() => {
-    // if (!playlistChange && location.pathname === '/') {
-    //   getPlaylistFromStore()
-    //   console.log('в условии плеера', list)
-    // } else if (!playlistChange && location.pathname === '/favourites') {
-    //   list = tracks
-    //   console.log('в условии плеера', list)
-    // }
-    // }, [])
 
     const audioRef = useRef()
     const togglePlayPause = () => {
@@ -312,7 +289,7 @@ function Player({
                   ></audio>
                 </S.TrackPlayContain>
 
-                <S.TrackPlayLikeDis>
+                {/* <S.TrackPlayLikeDis>
                   <S.TrackPlayLike className="_btn-icon">
                     <S.TrackPlayLikeSvg alt="like">
                       <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
@@ -323,7 +300,7 @@ function Player({
                       <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
                     </S.TrackPlayDislikeSvg>
                   </S.TrackPlayDislike>
-                </S.TrackPlayLikeDis>
+                </S.TrackPlayLikeDis> */}
               </S.PlayerTrackPlay>
             </S.BarPlayer>
             <S.BarVolumeBlock>
