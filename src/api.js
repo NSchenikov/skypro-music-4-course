@@ -147,3 +147,53 @@ export const getMyTracks = async (accessToken) => {
     return data
   }
 }
+
+export const sendLike = async (accessToken, id) => {
+  const response = await fetch(
+    `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+      },
+    },
+  )
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    console.log(data)
+    const error = data.detail ?? data.email ?? data.password
+    console.log(error)
+    throw new Error(error)
+  } else {
+    // console.log(data)
+    return data
+  }
+}
+
+export const disLike = async (accessToken, id) => {
+  const response = await fetch(
+    `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+      },
+    },
+  )
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    console.log(data)
+    const error = data.detail ?? data.email ?? data.password
+    console.log(error)
+    throw new Error(error)
+  } else {
+    // console.log(data)
+    return data
+  }
+}

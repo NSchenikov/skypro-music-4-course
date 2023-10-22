@@ -12,20 +12,21 @@ function Playlist({
     <S.ContentPlaylist>
       {tracks.map((track, index) => {
         return (
-          <S.PlaylistItem
-            key={track.id}
-            onClick={() => {
-              setCurrentTrack(track)
-              // setIsAnimate(true)
-              isPlaying = true
-              setIsPlaying(isPlaying)
-              setTrackIndex(index)
-              // track.isanimated = !track.isanimated
-            }}
-          >
+          <S.PlaylistItem key={track.id}>
             <S.PlaylistTrack>
               <S.TrackTitle>
-                <S.TrackTitleImage>
+                <S.TrackTitleImage
+                  alt="music"
+                  key={track.id}
+                  onClick={() => {
+                    setCurrentTrack(track)
+                    // setIsAnimate(true)
+                    isPlaying = true
+                    setIsPlaying(isPlaying)
+                    setTrackIndex(index)
+                    // track.isanimated = !track.isanimated
+                  }}
+                >
                   {currentTrack === track ? (
                     <S.PlayingDot
                       style={{
@@ -33,7 +34,7 @@ function Playlist({
                       }}
                     ></S.PlayingDot>
                   ) : (
-                    <S.TrackTitleSvg alt="music">
+                    <S.TrackTitleSvg>
                       <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
                     </S.TrackTitleSvg>
                   )}
