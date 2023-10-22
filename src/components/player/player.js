@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import * as S from './player.style'
 
 function Player({
@@ -12,10 +13,39 @@ function Player({
   setTrackIndex,
   location,
 }) {
+  // console.log(playlistChange)
+  // ;[playlistChange, setPlaylistChange] = useState(false)
+  let list = tracks
+  const getPlaylistFromStore = () => {
+    list = useSelector((state) => state.track.playlist)
+    return list
+  }
+
   if (!currentTrack) return null
   if (currentTrack) {
-    let list
-    location.pathname === '/' ? (list = tracks) : (list = myTracks)
+    // if (location.pathname === '/') {
+    getPlaylistFromStore()
+    // } else {
+    //   getPlaylistFromStore()
+    //   if (isPlaying) {
+    //     list = tracks
+    //   }
+
+    //   if (isPlaying && location.pathname === '/favourites') {
+    //     list = tracks
+    //   }
+    // }
+
+    // useEffect(() => {
+    // if (!playlistChange && location.pathname === '/') {
+    //   getPlaylistFromStore()
+    //   console.log('в условии плеера', list)
+    // } else if (!playlistChange && location.pathname === '/favourites') {
+    //   list = tracks
+    //   console.log('в условии плеера', list)
+    // }
+    // }, [])
+
     const audioRef = useRef()
     const togglePlayPause = () => {
       setIsPlaying(() => !isPlaying)

@@ -14,6 +14,8 @@ export const Main = () => {
     setTrackIndex,
     fetchTracksError,
     loading,
+    loaction,
+    myTracks,
   ] = useOutletContext()
 
   return (
@@ -23,11 +25,13 @@ export const Main = () => {
       {!loading && (
         <Playlist
           tracks={tracks}
+          myTracks={myTracks}
           setCurrentTrack={setCurrentTrack}
           currentTrack={currentTrack}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           setTrackIndex={setTrackIndex}
+          location={location}
         />
       )}
     </>

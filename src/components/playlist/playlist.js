@@ -1,13 +1,18 @@
+import { setPlaylist } from '../../store/tracksSlice'
+import { useDispatch } from 'react-redux'
 import * as S from './playlist.style'
 
 function Playlist({
   tracks,
+  myTracks,
   setCurrentTrack,
   currentTrack,
   isPlaying,
   setIsPlaying,
   setTrackIndex,
+  location,
 }) {
+  const dispatch = useDispatch()
   return (
     <S.ContentPlaylist>
       {tracks.map((track, index) => {
@@ -18,13 +23,21 @@ function Playlist({
                 <S.TrackTitleImage
                   alt="music"
                   key={track.id}
-                  onClick={() => {
+                  onClick={(event) => {
                     setCurrentTrack(track)
-                    // setIsAnimate(true)
                     isPlaying = true
                     setIsPlaying(isPlaying)
                     setTrackIndex(index)
-                    // track.isanimated = !track.isanimated
+                    // if (event.target && location.pathname === '/favourites') {
+                    //   setPlaylistChange((pr) => pr)
+                    // }
+                    // if (event.target && location.pathname === '/') {
+                    //   setPlaylistChange((pr) => !pr)
+                    // }
+
+                    location.pathname === '/'
+                      ? dispatch(setPlaylist(tracks))
+                      : dispatch(setPlaylist(myTracks))
                   }}
                 >
                   {currentTrack === track ? (

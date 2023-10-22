@@ -62,16 +62,17 @@ export const Layout = () => {
   const [currentTrack, setCurrentTrack] = useState(currentTrk)
   const dispatch = useDispatch()
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
-  const addPlayList = () => {
-    location.pathname === '/'
-      ? dispatch(setPlaylist(tracks))
-      : dispatch(setPlaylist(myTracks))
-  }
+  // const addPlayList = () => {
+  //   location.pathname === '/'
+  //     ? dispatch(setPlaylist(tracks))
+  //     : dispatch(setPlaylist(myTracks))
+  // }
   addSong()
-  useEffect(() => {
-    addPlayList()
-  }, [currentTrack])
+  // useEffect(() => {
+  //   addPlayList()
+  // }, [currentTrack])
   const location = useLocation()
+
   return (
     <S.App>
       <S.GlobalStyle />
@@ -108,6 +109,7 @@ export const Layout = () => {
                     loading,
                     myTracks,
                     setMyTracks,
+                    location,
                   ]}
                 />
               </S.CenterblockContent>
