@@ -37,6 +37,7 @@ export const Layout = () => {
     getMyTracks(localStorage.user)
       .then((myTracks) => {
         setMyTracks(myTracks)
+        getLikesIndxes()
         // console.log(myTracks)
       })
       .then(() => setLoading(false))
@@ -51,11 +52,30 @@ export const Layout = () => {
         setLoading(false)
       })
   }, [])
-  useEffect(() => {
+  const getLikesIndxes = () => {
     for (let myTrack of myTracks) {
       setLikesIndexes((likesIndexes) => [...likesIndexes, myTrack.id])
     }
-    // console.log('все лайкнутые', likesIndexes)
+    let outputArray = []
+    let count = 0
+    let start = false
+    for (let j = 0; j < likesIndexes.length; j++) {
+      for (let k = 0; k < outputArray.length; k++) {
+        if (likesIndexes[j] == outputArray[k]) {
+          start = true
+        }
+      }
+      count++
+      if (count == 1 && start == false) {
+        outputArray.push(likesIndexes[j])
+      }
+      start = false
+      count = 0
+      setLikesIndexes(outputArray)
+    }
+  }
+  useEffect(() => {
+    getLikesIndxes()
   }, [myTracks])
   // sendLike(localStorage.user, 29).then((res) => console.log(res))
   const currentTrk = useSelector((state) => state.trk)

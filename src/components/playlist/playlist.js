@@ -48,10 +48,14 @@ function Playlist({
           setTracks(tracks)
           // console.log(tracks)
         })
-        getMyTracks(localStorage.user).then((myTracks) => {
-          setMyTracks(myTracks)
-          // console.log(myTracks)
-        })
+        getMyTracks(localStorage.user)
+          .then((myTracks) => {
+            setMyTracks(myTracks)
+            // console.log(myTracks)
+          })
+          .then(() => {
+            setLikesIndexes([...likesIndexes, id])
+          })
       })
       .catch((error) => {
         if (
@@ -76,10 +80,18 @@ function Playlist({
           setTracks(tracks)
           // console.log(tracks)
         })
-        getMyTracks(localStorage.user).then((myTracks) => {
-          setMyTracks(myTracks)
-          // console.log(myTracks)
-        })
+        getMyTracks(localStorage.user)
+          .then((myTracks) => {
+            setMyTracks(myTracks)
+            // console.log(myTracks)
+          })
+          .then(() => {
+            let index = likesIndexes.indexOf(id)
+            if (index > -1) {
+              // setLikesIndexes(likesIndexes.splice(index, 1))
+              likesIndexes.splice(index, 1)
+            }
+          })
       })
       .catch((error) => {
         if (
@@ -146,7 +158,10 @@ function Playlist({
                 {findLike(likesIndexes, track.id) ? (
                   <S.TrackTimeSvg
                     alt="time"
-                    onClick={() => Disliking(track.id)}
+                    onClick={() => {
+                      Disliking(track.id)
+                      findLike(likesIndexes, track.id)
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +181,13 @@ function Playlist({
                     </svg>
                   </S.TrackTimeSvg>
                 ) : (
-                  <S.TrackTimeSvg alt="time" onClick={() => Liking(track.id)}>
+                  <S.TrackTimeSvg
+                    alt="time"
+                    onClick={() => {
+                      Liking(track.id)
+                      findLike(likesIndexes, track.id)
+                    }}
+                  >
                     <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
                   </S.TrackTimeSvg>
                 )}
