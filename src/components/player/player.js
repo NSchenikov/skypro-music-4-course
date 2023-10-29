@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import * as S from './player.style'
 
 function Player({
@@ -6,12 +7,22 @@ function Player({
   isPlaying,
   setIsPlaying,
   tracks,
+  myTracks,
   setCurrentTrack,
   trackIndex,
   setTrackIndex,
+  location,
 }) {
+  let list = tracks
+  const getPlaylistFromStore = () => {
+    list = useSelector((state) => state.track.playlist)
+    return list
+  }
+
   if (!currentTrack) return null
   if (currentTrack) {
+    getPlaylistFromStore()
+
     const audioRef = useRef()
     const togglePlayPause = () => {
       setIsPlaying(() => !isPlaying)
@@ -97,19 +108,19 @@ function Player({
         return
       } else {
         setTrackIndex((prev) => prev - 1)
-        setCurrentTrack(tracks[trackIndex - 1])
+        setCurrentTrack(list[trackIndex - 1])
       }
     }
     const handleNext = () => {
       if (playShuffle) {
         shuffled()
-      } else if (trackIndex >= tracks.length - 1) {
+      } else if (trackIndex >= list.length - 1) {
         // setTrackIndex(0)
         // setCurrentTrack(tracks[0])
         return
       } else {
         setTrackIndex((prev) => prev + 1)
-        setCurrentTrack(tracks[trackIndex + 1])
+        setCurrentTrack(list[trackIndex + 1])
       }
     }
     const [playShuffle, setIsPlayShuffle] = useState(false)
@@ -121,8 +132,8 @@ function Player({
     }
     const shuffled = () => {
       if (playShuffle) {
-        let ind = getRandomSong(tracks.length)
-        setCurrentTrack(tracks[ind])
+        let ind = getRandomSong(list.length)
+        setCurrentTrack(list[ind])
         // setTrackIndex(ind)
         trackIndex = ind
         console.log(
@@ -130,6 +141,7 @@ function Player({
         )
       }
     }
+
     return (
       <S.Bar>
         <S.BarContent>
@@ -148,7 +160,7 @@ function Player({
               <S.PlayerControls>
                 <S.PlayerBtnPrev onClick={handlePrevious}>
                   <S.PlayerBtnPrevSvg alt="prev">
-                    <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                   </S.PlayerBtnPrevSvg>
                 </S.PlayerBtnPrev>
                 {isPlaying ? (
@@ -172,13 +184,13 @@ function Player({
                   <S.PlayerBtnPlay onClick={togglePlayPause} className="_btn">
                     {' '}
                     <S.PlayerBtnPlaySvg alt="play">
-                      <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
                     </S.PlayerBtnPlaySvg>
                   </S.PlayerBtnPlay>
                 )}
                 <S.PlayerBtnNext onClick={handleNext}>
                   <S.PlayerBtnNextSvg alt="next">
-                    <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                   </S.PlayerBtnNextSvg>
                 </S.PlayerBtnNext>
                 {isRepeating ? (
@@ -211,7 +223,7 @@ function Player({
                     className="_btn-icon"
                   >
                     <S.PlayerBtnRepeatSvg alt="repeat">
-                      <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
                     </S.PlayerBtnRepeatSvg>
                   </S.PlayerBtnRepeat>
                 )}
@@ -243,7 +255,7 @@ function Player({
                     className="_btn-icon"
                   >
                     <S.PlayerBtnShuffleSvg alt="shuffle">
-                      <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-shuffle"></use>
                     </S.PlayerBtnShuffleSvg>
                   </S.PlayerBtnShuffle>
                 )}
@@ -253,7 +265,7 @@ function Player({
                 <S.TrackPlayContain>
                   <S.TrackPlayImage>
                     <S.TrackPlaySvg alt="music">
-                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
                     </S.TrackPlaySvg>
                   </S.TrackPlayImage>
                   <S.TrackPlayAuthor>
@@ -277,7 +289,7 @@ function Player({
                   ></audio>
                 </S.TrackPlayContain>
 
-                <S.TrackPlayLikeDis>
+                {/* <S.TrackPlayLikeDis>
                   <S.TrackPlayLike className="_btn-icon">
                     <S.TrackPlayLikeSvg alt="like">
                       <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
@@ -288,14 +300,14 @@ function Player({
                       <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
                     </S.TrackPlayDislikeSvg>
                   </S.TrackPlayDislike>
-                </S.TrackPlayLikeDis>
+                </S.TrackPlayLikeDis> */}
               </S.PlayerTrackPlay>
             </S.BarPlayer>
             <S.BarVolumeBlock>
               <S.VolumeContent>
                 <S.VolumeImage>
                   <S.VolumeSvg alt="volume">
-                    <use xlinkHref="img/icon/sprite.svg#icon-volume"></use>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-volume"></use>
                   </S.VolumeSvg>
                 </S.VolumeImage>
                 <S.VolumeProgress className="_btn">

@@ -20,7 +20,7 @@ function Sidebar() {
         <S.SidebarPersonalName>{authUser}</S.SidebarPersonalName>
         <S.SidebarIcon>
           <S.Logout onClick={handleLogout} alt="logout">
-            <use xlinkHref="img/icon/sprite.svg#logout"></use>
+            <use xlinkHref="/img/icon/sprite.svg#logout"></use>
           </S.Logout>
         </S.SidebarIcon>
       </S.SidebarPersonal>
@@ -31,7 +31,7 @@ function Sidebar() {
               <Link to={`/category/${id}`}>
                 <S.SidebarLink>
                   <S.SidebarImg
-                    src={`img/playlist0${id}.png`}
+                    src={`/img/playlist0${id}.png`}
                     alt="day's playlist"
                   />
                 </S.SidebarLink>

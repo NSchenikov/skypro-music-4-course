@@ -42,6 +42,7 @@ export const Login = () => {
     getToken(email, password)
       .then((res) => {
         setUser('user', res.access)
+        localStorage.setItem('refreshed', res.refresh)
         setIsLoggedIn(true)
         // setAuthUser({ username: email })
         setAuthUser(email)
@@ -61,7 +62,7 @@ export const Login = () => {
         <div className="modal__block">
           <form className="modal__form-login" onSubmit={handleSubmit}>
             <div className="modal__logo">
-              <img src="../img/logo_modal.png" alt="logo" />
+              <img src="/../img/logo_modal.png" alt="logo" />
             </div>
             <input
               className="modal__input login"
