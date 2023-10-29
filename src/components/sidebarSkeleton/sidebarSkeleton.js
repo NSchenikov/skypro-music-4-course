@@ -8,7 +8,7 @@ function SidebarSkeleton() {
         <S.SidebarPersonalName>Sergey.Ivanov</S.SidebarPersonalName>
         <S.SidebarIcon>
           <S.Logout alt="logout">
-            <use xlinkHref="img/icon/sprite.svg#logout"></use>
+            <use xlinkHref="/img/icon/sprite.svg#logout"></use>
           </S.Logout>
         </S.SidebarIcon>
       </S.SidebarPersonal>

@@ -13,6 +13,7 @@ export const Main = () => {
     isPlaying,
     setIsPlaying,
     setTrackIndex,
+    trackIndex,
     fetchTracksError,
     loading,
     myTracks,
@@ -37,6 +38,7 @@ export const Main = () => {
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           setTrackIndex={setTrackIndex}
+          trackIndex={trackIndex}
           location={location}
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}

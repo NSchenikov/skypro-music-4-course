@@ -53,7 +53,7 @@ export const Register = () => {
         <div className="modal__block">
           <form className="modal__form-login" onSubmit={handleSubmit}>
             <div className="modal__logo">
-              <img src="../img/logo_modal.png" alt="logo" />
+              <img src="/../img/logo_modal.png" alt="logo" />
             </div>
             <input
               className="modal__input login"

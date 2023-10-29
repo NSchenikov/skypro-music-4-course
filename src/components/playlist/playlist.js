@@ -15,6 +15,7 @@ function Playlist({
   isPlaying,
   setIsPlaying,
   setTrackIndex,
+  trackIndex,
   location,
   likesIndexes,
   setLikesIndexes,
@@ -132,7 +133,7 @@ function Playlist({
                     ></S.PlayingDot>
                   ) : (
                     <S.TrackTitleSvg>
-                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
                     </S.TrackTitleSvg>
                   )}
                 </S.TrackTitleImage>
@@ -153,7 +154,7 @@ function Playlist({
               </S.TrackAlbum>
               <S.TrackTime>
                 {/* <S.TrackTimeSvg alt="time">
-                  <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
                 </S.TrackTimeSvg> */}
                 {findLike(likesIndexes, track.id) ? (
                   <S.TrackTimeSvg
@@ -188,7 +189,7 @@ function Playlist({
                       findLike(likesIndexes, track.id)
                     }}
                   >
-                    <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
                   </S.TrackTimeSvg>
                 )}
                 <S.TrackTimeText>

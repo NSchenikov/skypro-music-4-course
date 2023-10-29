@@ -9,6 +9,7 @@ export const Favourites = () => {
     isPlaying,
     setIsPlaying,
     setTrackIndex,
+    trackIndex,
     fetchTracksError,
     loading,
     myTracks,
@@ -30,6 +31,7 @@ export const Favourites = () => {
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           setTrackIndex={setTrackIndex}
+          trackIndex={trackIndex}
           location={location}
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}
