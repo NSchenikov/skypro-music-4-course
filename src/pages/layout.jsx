@@ -85,6 +85,24 @@ export const Layout = () => {
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
   addSong()
   const location = useLocation()
+  let categoryTracks
+  const findCategoryTracks = (categoryName) => {
+    categoryTracks = tracks.filter((el) => el.genre === categoryName)
+  }
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/category/1':
+        findCategoryTracks('Классическая музыка')
+      case '/category/2':
+        findCategoryTracks('Электронная музыка')
+      case '/category/3':
+        findCategoryTracks('Рок музыка')
+      default:
+        null
+    }
+  }, [])
+
+  console.log(categoryTracks)
 
   return (
     <S.App>
@@ -96,7 +114,15 @@ export const Layout = () => {
             <S.MainCenterblock>
               <Search />
               <S.CenterblockH2>
-                {location.pathname === '/' ? 'Треки' : 'Мои треки'}
+                {location.pathname === '/'
+                  ? 'Треки'
+                  : location.pathname === '/favourites'
+                  ? 'Мои треки'
+                  : location.pathname === '/category/1'
+                  ? 'Классическая музыка'
+                  : location.pathname === '/category/2'
+                  ? 'Электронная музыка'
+                  : 'Рок музыка'}
               </S.CenterblockH2>
               <Filter />
               <S.CenterblockContent>
@@ -127,6 +153,7 @@ export const Layout = () => {
                     location,
                     likesIndexes,
                     setLikesIndexes,
+                    categoryTracks,
                   ]}
                 />
               </S.CenterblockContent>

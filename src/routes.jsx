@@ -39,16 +39,16 @@ export const AppRoutes = ({ user }) => {
             </ProtectedRoute>
           }
         />
-      </Route>
 
-      <Route
-        path="/category/:id"
-        element={
-          <ProtectedRoute user={user} isAllowed={Boolean(user)}>
-            <Category />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/category/:id"
+          element={
+            <ProtectedRoute user={user} isAllowed={Boolean(user)}>
+              <Category />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
 
       <Route path="*" element={<NotFound />} />
     </Routes>

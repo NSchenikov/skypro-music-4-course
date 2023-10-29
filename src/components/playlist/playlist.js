@@ -36,7 +36,7 @@ function Playlist({
       console.log('Given data is not an array')
     }
   }
-  console.log('все лайкнутые', likesIndexes)
+  // console.log('все лайкнутые', likesIndexes)
   const Liking = (id) => {
     sendLike(localStorage.user, id)
       .then((res) => {
