@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { categories } from '../../components/sidebar/sidebar'
 import Playlist from '../../components/playlist/playlist'
 import { useOutletContext } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const Category = () => {
   const params = useParams()
@@ -23,7 +24,11 @@ export const Category = () => {
     likesIndexes,
     setLikesIndexes,
     categoryTracks,
+    pushCategory,
   ] = useOutletContext()
+  useEffect(() => {
+    pushCategory()
+  }, [])
   return (
     // <div>
     //   <h1>CategoryPage {favorite}</h1>
@@ -44,6 +49,7 @@ export const Category = () => {
           location={location}
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}
+          categoryTracks={categoryTracks}
         />
       ) : (
         <div style={{ textAlign: 'start' }}>В этом плейлисте нет треков</div>

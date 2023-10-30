@@ -17,6 +17,8 @@ export const Favourites = () => {
     location,
     likesIndexes,
     setLikesIndexes,
+    categoryTracks,
+    pushCategory,
   ] = useOutletContext()
   return (
     <>
@@ -35,6 +37,7 @@ export const Favourites = () => {
           location={location}
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}
+          categoryTracks={categoryTracks}
         />
       ) : (
         <div style={{ textAlign: 'start' }}>В этом плейлисте нет треков</div>

@@ -85,22 +85,37 @@ export const Layout = () => {
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
   addSong()
   const location = useLocation()
-  let categoryTracks
+  let [categoryTracks, setCategoryTracks] = useState([])
   const findCategoryTracks = (categoryName) => {
-    categoryTracks = tracks.filter((el) => el.genre === categoryName)
+    // categoryTracks = tracks.filter((el) => el.genre === categoryName)
+    setCategoryTracks(tracks.filter((el) => el.genre === categoryName))
   }
-  useEffect(() => {
+  const pushCategory = () => {
     switch (location.pathname) {
       case '/category/1':
+        // setCategoryTracks(findCategoryTracks('Классическая музыка'))
         findCategoryTracks('Классическая музыка')
+        break
       case '/category/2':
+        // setCategoryTracks(findCategoryTracks('Электронная музыка'))
         findCategoryTracks('Электронная музыка')
+        break
       case '/category/3':
+        // setCategoryTracks(findCategoryTracks('Рок музыка'))
         findCategoryTracks('Рок музыка')
-      default:
-        null
+        break
+      // default:
+      //   null
     }
+  }
+  useEffect(() => {
+    pushCategory()
+    // console.log('category', categoryTracks)
   }, [])
+  useEffect(() => {
+    pushCategory()
+    // console.log('category', categoryTracks)
+  }, [location])
 
   console.log(categoryTracks)
 
@@ -154,6 +169,7 @@ export const Layout = () => {
                     likesIndexes,
                     setLikesIndexes,
                     categoryTracks,
+                    pushCategory,
                   ]}
                 />
               </S.CenterblockContent>

@@ -19,6 +19,7 @@ function Playlist({
   location,
   likesIndexes,
   setLikesIndexes,
+  categoryTracks,
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -122,7 +123,9 @@ function Playlist({
                     setTrackIndex(index)
                     location.pathname === '/'
                       ? dispatch(setPlaylist(tracks))
-                      : dispatch(setPlaylist(myTracks))
+                      : location.pathname === '/favourites'
+                      ? dispatch(setPlaylist(myTracks))
+                      : dispatch(setPlaylist(categoryTracks))
                   }}
                 >
                   {currentTrack === track ? (
