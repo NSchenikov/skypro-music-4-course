@@ -117,7 +117,7 @@ export const Layout = () => {
     // console.log('category', categoryTracks)
   }, [location])
 
-  console.log(categoryTracks)
+  // console.log(categoryTracks)
 
   return (
     <S.App>
@@ -184,11 +184,15 @@ export const Layout = () => {
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               tracks={tracks}
+              setTracks={setTracks}
               myTracks={myTracks}
+              setMyTracks={setMyTracks}
               setCurrentTrack={setCurrentTrack}
               trackIndex={trackIndex}
               setTrackIndex={setTrackIndex}
               location={location}
+              likesIndexes={likesIndexes}
+              setLikesIndexes={setLikesIndexes}
             />
           )}
           <S.Footer />

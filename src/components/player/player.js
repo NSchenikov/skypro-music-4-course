@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useSelector } from 'react-redux'
+import { sendLike, sendDislike, getTracks, getMyTracks } from '../../api'
 import * as S from './player.style'
 
 function Player({
@@ -7,11 +8,15 @@ function Player({
   isPlaying,
   setIsPlaying,
   tracks,
+  setTracks,
   myTracks,
+  setMyTracks,
   setCurrentTrack,
   trackIndex,
   setTrackIndex,
   location,
+  likesIndexes,
+  setLikesIndexes,
 }) {
   let list = tracks
   const getPlaylistFromStore = () => {
@@ -140,6 +145,86 @@ function Player({
           `рандомный индекс${ind}, установленный индекс ${trackIndex}`,
         )
       }
+    }
+
+    const findLike = (arr, item) => {
+      if (Array.isArray(arr)) {
+        let found = arr.find((element) => element === item)
+        return found
+      } else {
+        console.log('Given data is not an array')
+      }
+    }
+
+    const Liking = (id) => {
+      sendLike(localStorage.user, id)
+        .then((res) => {
+          console.log(res)
+          if (res.status === 401) {
+            navigate('/login', { replace: true })
+            return
+          }
+          getTracks().then((tracks) => {
+            setTracks(tracks)
+            // console.log(tracks)
+          })
+          getMyTracks(localStorage.user)
+            .then((myTracks) => {
+              setMyTracks(myTracks)
+              // console.log(myTracks)
+            })
+            .then(() => {
+              setLikesIndexes([...likesIndexes, id])
+            })
+        })
+        .catch((error) => {
+          if (
+            error.message ===
+            'Данный токен недействителен для любого типа токена'
+          ) {
+            navigate('/login', { replace: true })
+            return
+          }
+          console.log(error)
+          throw new Error(error)
+        })
+    }
+    const Disliking = (id) => {
+      sendDislike(localStorage.user, id)
+        .then((res) => {
+          console.log(res)
+          if (res.status === 401) {
+            navigate('/login', { replace: true })
+            return
+          }
+          getTracks().then((tracks) => {
+            setTracks(tracks)
+            // console.log(tracks)
+          })
+          getMyTracks(localStorage.user)
+            .then((myTracks) => {
+              setMyTracks(myTracks)
+              // console.log(myTracks)
+            })
+            .then(() => {
+              let index = likesIndexes.indexOf(id)
+              if (index > -1) {
+                // setLikesIndexes(likesIndexes.splice(index, 1))
+                likesIndexes.splice(index, 1)
+              }
+            })
+        })
+        .catch((error) => {
+          if (
+            error.message ===
+            'Данный токен недействителен для любого типа токена'
+          ) {
+            navigate('/login', { replace: true })
+            return
+          }
+          console.log(error)
+          throw new Error(error)
+        })
     }
 
     return (
@@ -292,15 +377,52 @@ function Player({
                 {/* <S.TrackPlayLikeDis>
                   <S.TrackPlayLike className="_btn-icon">
                     <S.TrackPlayLikeSvg alt="like">
-                      <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
                     </S.TrackPlayLikeSvg>
                   </S.TrackPlayLike>
-                  <S.TrackPlayDislike className="_btn-icon">
-                    <S.TrackPlayDislikeSvg alt="dislike">
-                      <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
-                    </S.TrackPlayDislikeSvg>
-                  </S.TrackPlayDislike>
                 </S.TrackPlayLikeDis> */}
+                {findLike(likesIndexes, currentTrack.id) ? (
+                  <S.TrackPlayLikeDis
+                    onClick={() => {
+                      Disliking(currentTrack.id)
+                      findLike(likesIndexes, currentTrack.id)
+                    }}
+                  >
+                    <S.TrackPlayLike className="_btn-icon">
+                      <S.TrackPlayLikeSvg alt="like">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="14"
+                          viewBox="0 0 16 14"
+                          fill="none"
+                        >
+                          <path
+                            d="M8.02203 12.7031C13.9025 9.20312 16.9678 3.91234 13.6132 1.47046C11.413 -0.13111 8.95392 1.14488 8.02203 1.95884H8.00052H8.00046H7.97895C7.04706 1.14488 4.58794 -0.13111 2.38775 1.47046C-0.966814 3.91234 2.09846 9.20312 7.97895 12.7031H8.00046H8.00052H8.02203Z"
+                            fill="#B672FF"
+                          />
+                          <path
+                            d="M8.00046 1.95884H8.02203C8.95392 1.14488 11.413 -0.13111 13.6132 1.47046C16.9678 3.91234 13.9025 9.20312 8.02203 12.7031H8.00046M8.00052 1.95884H7.97895C7.04706 1.14488 4.58794 -0.13111 2.38775 1.47046C-0.966814 3.91234 2.09846 9.20312 7.97895 12.7031H8.00052"
+                            stroke="#B672FF"
+                          />
+                        </svg>
+                      </S.TrackPlayLikeSvg>
+                    </S.TrackPlayLike>
+                  </S.TrackPlayLikeDis>
+                ) : (
+                  <S.TrackPlayLikeDis
+                    onClick={() => {
+                      Liking(currentTrack.id)
+                      findLike(likesIndexes, currentTrack.id)
+                    }}
+                  >
+                    <S.TrackPlayLike className="_btn-icon">
+                      <S.TrackPlayLikeSvg alt="like">
+                        <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+                      </S.TrackPlayLikeSvg>
+                    </S.TrackPlayLike>
+                  </S.TrackPlayLikeDis>
+                )}
               </S.PlayerTrackPlay>
             </S.BarPlayer>
             <S.BarVolumeBlock>
