@@ -60,13 +60,14 @@ export const PopupBox = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 30px;
-  width: ${(props) => (props.$year ? '153px' : '180px')};
+  width: ${(props) =>
+    props.$year ? '153px' : props.$genre ? '200px' : '180px'};
   height: ${(props) => (props.$year ? '128px' : '237px')};
 `
 
 export const PopupLine = styled.li`
-  font-family: StratosSkyeng;
-  font-size: 20px;
+  // font-family: StratosSkyeng;
+  font-size: 19px;
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0em;
@@ -76,5 +77,6 @@ export const PopupLine = styled.li`
   &:hover {
     color: #b672ff;
     text-decoration: underline;
+    cursor: pointer;
   }
 `

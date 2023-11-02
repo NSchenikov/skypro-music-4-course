@@ -1,41 +1,71 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as S from './filter.style'
 
 // const S. = styled.div``
 
-function Filter() {
+function Filter(tracks, setTracks, myTracks, setMyTracks) {
   const [visibleFilter, setVisibleFilter] = useState(null)
+  let nonUniqueAuthors = []
+  let years = ['По умолчанию', 'Сначала новые', 'Сначала старые']
+  let nonUniqueGenres = []
+
+  const getUniqueValues = (array) => {
+    function onlyUnique(value, index, array) {
+      return array.indexOf(value) === index
+    }
+
+    return array.filter(onlyUnique)
+  }
+
+  const getAuthors = (initialArr, newArr) => {
+    for (initialArr of Object.entries(initialArr)[0][1]) {
+      newArr.push(initialArr.author)
+    }
+
+    return getUniqueValues(newArr)
+  }
+
+  const getGenres = (initialArr, newArr) => {
+    for (initialArr of Object.entries(initialArr)[0][1]) {
+      newArr.push(initialArr.genre)
+    }
+
+    return getUniqueValues(newArr)
+  }
+
+  let authors = getAuthors(tracks, nonUniqueAuthors)
+  let genres = getGenres(tracks, nonUniqueGenres)
 
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)
   }
 
-  let authors = [
-    'Nero',
-    'Dynoro',
-    'Outwork',
-    'Mr. Gee',
-    'Ali Bakgor',
-    'Стоункат',
-    'Psychopath',
-    'Jaded',
-    'Will Clarke',
-    'AR/CO',
-    'Blue Foundation',
-    'Zeds Dead',
-    'HYBIT',
-    'Mr. Black',
-    'Offer Nissim',
-    'Hi Profile',
-    'minthaze',
-    'Calvin Harris',
-    'Disciples',
-    'Tom Boxer',
-  ]
+  // let authors = [
+  //   'Nero',
+  //   'Dynoro',
+  //   'Outwork',
+  //   'Mr. Gee',
+  //   'Ali Bakgor',
+  //   'Стоункат',
+  //   'Psychopath',
+  //   'Jaded',
+  //   'Will Clarke',
+  //   'AR/CO',
+  //   'Blue Foundation',
+  //   'Zeds Dead',
+  //   'HYBIT',
+  //   'Mr. Black',
+  //   'Offer Nissim',
+  //   'Hi Profile',
+  //   'minthaze',
+  //   'Calvin Harris',
+  //   'Disciples',
+  //   'Tom Boxer',
+  // ]
 
-  let years = ['1994', '1995', '2000']
+  // let years = ['1994', '1995', '2000']
 
-  let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
+  // let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
 
   return (
     <S.CenterblockFilter>

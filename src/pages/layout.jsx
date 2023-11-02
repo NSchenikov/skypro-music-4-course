@@ -139,7 +139,12 @@ export const Layout = () => {
                   ? 'Электронная музыка'
                   : 'Рок музыка'}
               </S.CenterblockH2>
-              <Filter />
+              <Filter
+                tracks={tracks}
+                setTracks={setTracks}
+                myTracks={myTracks}
+                setMyTracks={setMyTracks}
+              />
               <S.CenterblockContent>
                 <S.ContentTitle>
                   <S.Col01>Трек</S.Col01>
