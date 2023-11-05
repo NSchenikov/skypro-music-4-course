@@ -23,6 +23,10 @@ export const Main = () => {
     setLikesIndexes,
     categoryTracks,
     pushCategory,
+    isSorted,
+    setIsSorted,
+    sortedTracks,
+    setSortedTracks,
   ] = useOutletContext()
 
   return (
@@ -45,6 +49,10 @@ export const Main = () => {
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}
           categoryTracks={categoryTracks}
+          isSorted={isSorted}
+          setIsSorted={setIsSorted}
+          sortedTracks={sortedTracks}
+          setSortedTracks={setSortedTracks}
         />
       )}
     </>

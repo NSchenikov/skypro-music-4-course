@@ -20,6 +20,10 @@ function Playlist({
   likesIndexes,
   setLikesIndexes,
   categoryTracks,
+  isSorted,
+  setIsSorted,
+  sortedTracks,
+  setSortedTracks,
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -47,12 +51,20 @@ function Playlist({
           return
         }
         getTracks().then((tracks) => {
-          setTracks(tracks)
+          if (isSorted) {
+            setTracks(sortedTracks)
+          } else {
+            setTracks(tracks)
+          }
           // console.log(tracks)
         })
         getMyTracks(localStorage.user)
           .then((myTracks) => {
-            setMyTracks(myTracks)
+            if (isSorted) {
+              setMyTracks(sortedTracks)
+            } else {
+              setMyTracks(myTracks)
+            }
             // console.log(myTracks)
           })
           .then(() => {
@@ -79,12 +91,20 @@ function Playlist({
           return
         }
         getTracks().then((tracks) => {
-          setTracks(tracks)
+          if (isSorted) {
+            setTracks(sortedTracks)
+          } else {
+            setTracks(tracks)
+          }
           // console.log(tracks)
         })
         getMyTracks(localStorage.user)
           .then((myTracks) => {
-            setMyTracks(myTracks)
+            if (isSorted) {
+              setMyTracks(sortedTracks)
+            } else {
+              setMyTracks(myTracks)
+            }
             // console.log(myTracks)
           })
           .then(() => {

@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react'
+import { setChoosedTrack, setPlaylist } from '../../store/tracksSlice'
+import { useSelector } from 'react-redux'
 import * as S from './filter.style'
 
 // const S. = styled.div``
 
-function Filter(tracks, setTracks, myTracks, setMyTracks) {
+function Filter({
+  tracks,
+  setTracks,
+  myTracks,
+  setMyTracks,
+  dispatch,
+  categoryTracks,
+  setCategoryTracks,
+  location,
+  isSorted,
+  setIsSorted,
+  sortedTracks,
+  setSortedTracks,
+}) {
   const [visibleFilter, setVisibleFilter] = useState(null)
   let nonUniqueAuthors = []
-  let years = ['По умолчанию', 'Сначала новые', 'Сначала старые']
+  // let years = ['По умолчанию', 'Сначала новые', 'Сначала старые']
   let nonUniqueGenres = []
+  let nonUniqueYearsData = []
 
   const getUniqueValues = (array) => {
     function onlyUnique(value, index, array) {
@@ -18,23 +34,127 @@ function Filter(tracks, setTracks, myTracks, setMyTracks) {
   }
 
   const getAuthors = (initialArr, newArr) => {
-    for (initialArr of Object.entries(initialArr)[0][1]) {
-      newArr.push(initialArr.author)
+    for (let initialAr of initialArr) {
+      newArr.push(initialAr.author)
     }
 
     return getUniqueValues(newArr)
   }
 
   const getGenres = (initialArr, newArr) => {
-    for (initialArr of Object.entries(initialArr)[0][1]) {
-      newArr.push(initialArr.genre)
+    for (let initialAr of initialArr) {
+      newArr.push(initialAr.genre)
     }
 
     return getUniqueValues(newArr)
   }
 
+  // const getYearsData = (initialArr, newArr) => {
+  //   for (initialArr of Object.entries(initialArr)[0][1]) {
+  //     newArr.push(initialArr.release_date)
+  //   }
+
+  //   return newArr
+  // }
+
+  // const sortTracksByReleaseDateFromEarly = (arr) => {
+  //   arr.sort((a, b) => {
+  //     let aa = a.split('-').reverse().join(),
+  //       bb = b.split('-').reverse().join()
+  //     return aa < bb ? -1 : aa > bb ? 1 : 0
+  //   })
+  // }
+
   let authors = getAuthors(tracks, nonUniqueAuthors)
   let genres = getGenres(tracks, nonUniqueGenres)
+  // let yearsData = getYearsData(tracks, nonUniqueYearsData)
+  // console.log(sortTracksByReleaseDateFromEarly(yearsData))
+
+  // console.log(tracks)
+  const sortDown = () => {
+    let sorted
+    if (location.pathname === '/') {
+      sorted = [...tracks]
+    } else if (location.pathname === '/favourites') {
+      sorted = [...myTracks]
+    } else {
+      sorted = [...categoryTracks]
+    }
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return bb - aa
+    })
+
+    if (location.pathname === '/') {
+      setTracks(sorted)
+    } else if (location.pathname === '/favourites') {
+      setMyTracks(sorted)
+    } else {
+      setCategoryTracks(sorted)
+    }
+    dispatch(setPlaylist(sorted))
+
+    setSortedTracks(sorted)
+    setIsSorted(true)
+  }
+
+  const sortUp = () => {
+    let sorted
+    if (location.pathname === '/') {
+      sorted = [...tracks]
+    } else if (location.pathname === '/favourites') {
+      sorted = [...myTracks]
+    } else {
+      sorted = [...categoryTracks]
+    }
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return aa - bb
+    })
+    if (location.pathname === '/') {
+      setTracks(sorted)
+    } else if (location.pathname === '/favourites') {
+      setMyTracks(sorted)
+    } else {
+      setCategoryTracks(sorted)
+    }
+    dispatch(setPlaylist(sorted))
+
+    setSortedTracks(sorted)
+    setIsSorted(true)
+  }
+
+  const sortDefault = () => {
+    let sorted
+    if (location.pathname === '/') {
+      sorted = [...tracks]
+    } else if (location.pathname === '/favourites') {
+      sorted = [...myTracks]
+    } else {
+      sorted = [...categoryTracks]
+    }
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.id)
+      const bb = new Date(b.id)
+      return aa - bb
+    })
+    if (location.pathname === '/') {
+      setTracks(sorted)
+    } else if (location.pathname === '/favourites') {
+      setMyTracks(sorted)
+    } else {
+      setCategoryTracks(sorted)
+    }
+    dispatch(setPlaylist(sorted))
+
+    setSortedTracks(sorted)
+    setIsSorted(true)
+  }
 
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)
@@ -95,9 +215,14 @@ function Filter(tracks, setTracks, myTracks, setMyTracks) {
       {visibleFilter === 'year' && (
         <S.Popup $year>
           <S.PopupBox $year>
-            {years.map((item, i) => (
+            {/* {years.map((item, i) => (
               <S.PopupLine key={i}>{item}</S.PopupLine>
-            ))}
+            ))} */}
+            <S.PopupLine onClick={() => sortDefault()}>
+              По умолчанию
+            </S.PopupLine>
+            <S.PopupLine onClick={() => sortDown()}>Сначала новые</S.PopupLine>
+            <S.PopupLine onClick={() => sortUp()}>Сначала старые</S.PopupLine>
           </S.PopupBox>
         </S.Popup>
       )}

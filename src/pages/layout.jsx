@@ -19,6 +19,8 @@ export const Layout = () => {
   const [fetchTracksError, setFetchTracksError] = useState(null)
   let [isPlaying, setIsPlaying] = useState(false)
   const [likesIndexes, setLikesIndexes] = useState([])
+  const [isSorted, setIsSorted] = useState(false)
+  const [sortedTracks, setSortedTracks] = useState([])
 
   const navigate = useNavigate()
 
@@ -114,6 +116,7 @@ export const Layout = () => {
   }, [])
   useEffect(() => {
     pushCategory()
+    setIsSorted(false)
     // console.log('category', categoryTracks)
   }, [location])
 
@@ -144,6 +147,14 @@ export const Layout = () => {
                 setTracks={setTracks}
                 myTracks={myTracks}
                 setMyTracks={setMyTracks}
+                dispatch={dispatch}
+                categoryTracks={categoryTracks}
+                setCategoryTracks={setCategoryTracks}
+                location={location}
+                isSorted={isSorted}
+                setIsSorted={setIsSorted}
+                sortedTracks={sortedTracks}
+                setSortedTracks={setSortedTracks}
               />
               <S.CenterblockContent>
                 <S.ContentTitle>
@@ -175,6 +186,10 @@ export const Layout = () => {
                     setLikesIndexes,
                     categoryTracks,
                     pushCategory,
+                    isSorted,
+                    setIsSorted,
+                    sortedTracks,
+                    setSortedTracks,
                   ]}
                 />
               </S.CenterblockContent>
