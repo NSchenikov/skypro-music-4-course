@@ -21,9 +21,7 @@ function Filter({
 }) {
   const [visibleFilter, setVisibleFilter] = useState(null)
   let nonUniqueAuthors = []
-  // let years = ['По умолчанию', 'Сначала новые', 'Сначала старые']
   let nonUniqueGenres = []
-  let nonUniqueYearsData = []
 
   const getUniqueValues = (array) => {
     function onlyUnique(value, index, array) {
@@ -49,28 +47,11 @@ function Filter({
     return getUniqueValues(newArr)
   }
 
-  // const getYearsData = (initialArr, newArr) => {
-  //   for (initialArr of Object.entries(initialArr)[0][1]) {
-  //     newArr.push(initialArr.release_date)
-  //   }
-
-  //   return newArr
-  // }
-
-  // const sortTracksByReleaseDateFromEarly = (arr) => {
-  //   arr.sort((a, b) => {
-  //     let aa = a.split('-').reverse().join(),
-  //       bb = b.split('-').reverse().join()
-  //     return aa < bb ? -1 : aa > bb ? 1 : 0
-  //   })
-  // }
-
   let authors = getAuthors(tracks, nonUniqueAuthors)
   let genres = getGenres(tracks, nonUniqueGenres)
-  // let yearsData = getYearsData(tracks, nonUniqueYearsData)
-  // console.log(sortTracksByReleaseDateFromEarly(yearsData))
+  let chosenAuthors = []
+  let chosenGenres = []
 
-  // console.log(tracks)
   const sortDown = () => {
     let sorted
     if (location.pathname === '/') {
@@ -156,36 +137,79 @@ function Filter({
     setIsSorted(true)
   }
 
+  const addChosenToArray = (array, item, callback) => {
+    array.push(item)
+    // console.log('done')
+    callback()
+  }
+
+  const filterByGenres = (chosenGenres, array) => {
+    let filtered = []
+    for (let chosenGenre of chosenGenres) {
+      for (let item of array) {
+        if (chosenGenre.includes(item.genre)) {
+          filtered.push(item)
+        }
+      }
+    }
+    console.log(filtered)
+    setSortedTracks(filtered)
+    sortedTracks = [...filtered]
+    setIsSorted(true)
+  }
+
+  const filterByAuthors = (chosenAuthors, array) => {
+    let filtered = []
+    for (let chosenAuthor of chosenAuthors) {
+      for (let item of array) {
+        if (chosenAuthor.includes(item.author)) {
+          filtered.push(item)
+        }
+      }
+    }
+    console.log(filtered)
+    setSortedTracks(filtered)
+    sortedTracks = [...filtered]
+    setIsSorted(true)
+  }
+
+  const detectPageForFilteringGenres = () => {
+    switch (location.pathname) {
+      case '/':
+        filterByGenres(chosenGenres, tracks)
+        setTracks(sortedTracks)
+        break
+      case '/favourites':
+        filterByGenres(chosenGenres, myTracks)
+        setMyTracks(sortedTracks)
+        break
+      default:
+        filterByGenres(chosenGenres, categoryTracks)
+        setCategoryTracks(sortedTracks)
+        break
+    }
+  }
+
+  const detectPageForFilteringAuthors = () => {
+    switch (location.pathname) {
+      case '/':
+        filterByAuthors(chosenAuthors, tracks)
+        setTracks(sortedTracks)
+        break
+      case '/favourites':
+        filterByAuthors(chosenAuthors, myTracks)
+        setMyTracks(sortedTracks)
+        break
+      default:
+        filterByAuthors(chosenAuthors, categoryTracks)
+        setCategoryTracks(sortedTracks)
+        break
+    }
+  }
+
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)
   }
-
-  // let authors = [
-  //   'Nero',
-  //   'Dynoro',
-  //   'Outwork',
-  //   'Mr. Gee',
-  //   'Ali Bakgor',
-  //   'Стоункат',
-  //   'Psychopath',
-  //   'Jaded',
-  //   'Will Clarke',
-  //   'AR/CO',
-  //   'Blue Foundation',
-  //   'Zeds Dead',
-  //   'HYBIT',
-  //   'Mr. Black',
-  //   'Offer Nissim',
-  //   'Hi Profile',
-  //   'minthaze',
-  //   'Calvin Harris',
-  //   'Disciples',
-  //   'Tom Boxer',
-  // ]
-
-  // let years = ['1994', '1995', '2000']
-
-  // let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
 
   return (
     <S.CenterblockFilter>
@@ -201,7 +225,18 @@ function Filter({
         <S.Popup $author>
           <S.PopupBox $author>
             {authors.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
+              <S.PopupLine
+                key={i}
+                onClick={() => {
+                  addChosenToArray(
+                    chosenAuthors,
+                    item,
+                    detectPageForFilteringAuthors,
+                  )
+                }}
+              >
+                {item}
+              </S.PopupLine>
             ))}
           </S.PopupBox>
         </S.Popup>
@@ -215,9 +250,6 @@ function Filter({
       {visibleFilter === 'year' && (
         <S.Popup $year>
           <S.PopupBox $year>
-            {/* {years.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
-            ))} */}
             <S.PopupLine onClick={() => sortDefault()}>
               По умолчанию
             </S.PopupLine>
@@ -236,7 +268,18 @@ function Filter({
         <S.Popup $genre>
           <S.PopupBox $genre>
             {genres.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
+              <S.PopupLine
+                key={i}
+                onClick={() => {
+                  addChosenToArray(
+                    chosenGenres,
+                    item,
+                    detectPageForFilteringGenres,
+                  )
+                }}
+              >
+                {item}
+              </S.PopupLine>
             ))}
           </S.PopupBox>
         </S.Popup>

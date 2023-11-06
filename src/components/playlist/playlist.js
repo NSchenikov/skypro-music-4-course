@@ -27,12 +27,7 @@ function Playlist({
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   for (let myTrack of myTracks) {
-  //     setLikesIndexes((likesIndexes) => [...likesIndexes, myTrack.id])
-  //   }
-  //   // console.log('все лайкнутые', likesIndexes)
-  // }, [myTracks])
+
   const findLike = (arr, item) => {
     if (Array.isArray(arr)) {
       let found = arr.find((element) => element === item)
