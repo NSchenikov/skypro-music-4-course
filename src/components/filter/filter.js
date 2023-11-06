@@ -29,6 +29,10 @@ function Filter({
     setSaveTracks(tracks)
   }
 
+  // useEffect(() => {
+  //   setSaveTracks(tracks)
+  // }, [])
+
   const getUniqueValues = (array) => {
     function onlyUnique(value, index, array) {
       return array.indexOf(value) === index
@@ -55,117 +59,79 @@ function Filter({
 
   let authors = getAuthors(saveTracks, nonUniqueAuthors)
   let genres = getGenres(saveTracks, nonUniqueGenres)
-  let [chosenAuthors, setChosenAuthors] = useState([])
-  let [chosenGenres, setChosenGenres] = useState([])
 
-  const sortDown = () => {
-    let sorted = [...tracks]
-    // console.log(sorted)
-    sorted.sort((a, b) => {
-      const aa = new Date(a.release_date)
-      const bb = new Date(b.release_date)
-      return bb - aa
-    })
+  let [obj, setObj] = useState({
+    author: [],
+    year: 'default',
+    genre: [],
+  })
 
-    setTracks(sorted)
-    dispatch(setPlaylist(sorted))
-
-    setSortedTracks(sorted)
-    setIsSorted(true)
+  const changeAuthors = (item) => {
+    setObj({ ...obj, author: [...obj.author, item] })
   }
 
-  const sortUp = () => {
-    let sorted = [...tracks]
-    // console.log(sorted)
-    sorted.sort((a, b) => {
-      const aa = new Date(a.release_date)
-      const bb = new Date(b.release_date)
-      return aa - bb
-    })
-    setTracks(sorted)
-    dispatch(setPlaylist(sorted))
-
-    setSortedTracks(sorted)
-    setIsSorted(true)
+  const changeGenres = (item) => {
+    setObj({ ...obj, genre: [...obj.genre, item] })
   }
 
-  const sortDefault = () => {
-    let sorted = [...tracks]
-    // console.log(sorted)
-    sorted.sort((a, b) => {
-      const aa = new Date(a.id)
-      const bb = new Date(b.id)
-      return aa - bb
-    })
-    setTracks(sorted)
-    dispatch(setPlaylist(sorted))
+  useEffect(() => {
+    console.log('obj', obj)
+  }, [obj])
 
-    setSortedTracks(sorted)
-    setIsSorted(true)
-  }
+  // useEffect(() => {
+  //   sortAndFilter()
+  // }, [obj])
 
-  const addChosenAuthorToArray = (item, callback) => {
-    // array.push(item)
-    // console.log('done')
-    chosenAuthors.push(item)
-    setChosenAuthors((chosenAuthors) => [...chosenAuthors, item])
-    setChosenAuthors(getUniqueValues(chosenAuthors))
-    console.log(chosenAuthors)
+  // useEffect(() => {
+  //   sortAndFilter()
+  // }, [tracks])
 
-    callback()
-  }
-
-  const addChosenGenreToArray = (item, callback) => {
-    // array.push(item)
-    // console.log('done')
-    chosenGenres.push(item)
-    setChosenGenres((chosenGenres) => [...chosenGenres, item])
-    setChosenGenres(getUniqueValues(chosenGenres))
-    console.log(chosenGenres)
-
-    callback()
-  }
-
-  const filterByGenres = (chosenGenres, array) => {
-    setTracks(saveTracks)
+  const filterByAuthor = () => {
+    // setTracks(saveTracks)
     let filtered = []
-    for (let chosenGenre of chosenGenres) {
-      for (let item of array) {
-        if (chosenGenre.includes(item.genre)) {
-          filtered.push(item)
+    console.log('массив авторов в объекте перед проверкой', obj.author)
+    for (let author of obj.author) {
+      for (let item of saveTracks) {
+        if (author.includes(item.author)) {
+          // filtered.push(item)
+          // console.log(filtered)
+          filtered = [...filtered, item]
         }
       }
     }
-    console.log(filtered)
+    console.log('конечный', filtered)
+
     setSortedTracks(filtered)
     sortedTracks = [...filtered]
-    setIsSorted(true)
   }
 
-  const filterByAuthors = (chosenAuthors, array) => {
-    setTracks(saveTracks)
+  const filterByGenre = () => {
+    // setTracks(saveTracks)
     let filtered = []
-    for (let chosenAuthor of chosenAuthors) {
-      for (let item of array) {
-        if (chosenAuthor.includes(item.author)) {
-          filtered.push(item)
+    console.log('массив жанров в объекте перед проверкой', obj.genre)
+    for (let genre of obj.genre) {
+      for (let item of saveTracks) {
+        if (genre.includes(item.genre)) {
+          // filtered.push(item)
+          filtered = [...filtered, item]
         }
       }
     }
-    console.log(filtered)
+    console.log('конечный', filtered)
+
     setSortedTracks(filtered)
     sortedTracks = [...filtered]
+  }
+
+  const sortAndFilter = () => {
+    if (obj.author) {
+      filterByAuthor()
+    }
+    if (obj.genre) {
+      filterByGenre()
+    }
+    setTracks(sortedTracks)
     setIsSorted(true)
-  }
-
-  const detectPageForFilteringGenres = () => {
-    filterByGenres(chosenGenres, saveTracks)
-    setTracks(sortedTracks)
-  }
-
-  const detectPageForFilteringAuthors = () => {
-    filterByAuthors(chosenAuthors, saveTracks)
-    setTracks(sortedTracks)
   }
 
   const toggleVisibleFilter = (filter) => {
@@ -189,7 +155,11 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  addChosenAuthorToArray(item, detectPageForFilteringAuthors)
+                  // if (event.target) {
+                  console.log('author')
+                  changeAuthors(item)
+                  sortAndFilter()
+                  // }
                 }}
               >
                 {item}
@@ -207,11 +177,30 @@ function Filter({
       {visibleFilter === 'year' && (
         <S.Popup $year>
           <S.PopupBox $year>
-            <S.PopupLine onClick={() => sortDefault()}>
+            <S.PopupLine
+              onClick={() => {
+                console.log('default')
+                setObj({ ...obj, year: 'default' })
+              }}
+            >
               По умолчанию
             </S.PopupLine>
-            <S.PopupLine onClick={() => sortDown()}>Сначала новые</S.PopupLine>
-            <S.PopupLine onClick={() => sortUp()}>Сначала старые</S.PopupLine>
+            <S.PopupLine
+              onClick={() => {
+                console.log('new')
+                setObj({ ...obj, year: 'new' })
+              }}
+            >
+              Сначала новые
+            </S.PopupLine>
+            <S.PopupLine
+              onClick={() => {
+                console.log('old')
+                setObj({ ...obj, year: 'old' })
+              }}
+            >
+              Сначала старые
+            </S.PopupLine>
           </S.PopupBox>
         </S.Popup>
       )}
@@ -228,7 +217,9 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  addChosenGenreToArray(item, detectPageForFilteringGenres)
+                  console.log('genre')
+                  changeGenres(item)
+                  sortAndFilter()
                 }}
               >
                 {item}
