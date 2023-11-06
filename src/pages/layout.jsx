@@ -21,6 +21,7 @@ export const Layout = () => {
   const [likesIndexes, setLikesIndexes] = useState([])
   const [isSorted, setIsSorted] = useState(false)
   const [sortedTracks, setSortedTracks] = useState([])
+  const [saveTracks, setSaveTracks] = useState([])
 
   const navigate = useNavigate()
 
@@ -90,7 +91,7 @@ export const Layout = () => {
   let [categoryTracks, setCategoryTracks] = useState([])
   const findCategoryTracks = (categoryName) => {
     // categoryTracks = tracks.filter((el) => el.genre === categoryName)
-    setCategoryTracks(tracks.filter((el) => el.genre === categoryName))
+    setCategoryTracks(saveTracks.filter((el) => el.genre === categoryName))
   }
   const pushCategory = () => {
     switch (location.pathname) {
@@ -116,7 +117,6 @@ export const Layout = () => {
   }, [])
   useEffect(() => {
     pushCategory()
-    setIsSorted(false)
     // console.log('category', categoryTracks)
   }, [location])
 
@@ -155,6 +155,8 @@ export const Layout = () => {
                 setIsSorted={setIsSorted}
                 sortedTracks={sortedTracks}
                 setSortedTracks={setSortedTracks}
+                saveTracks={saveTracks}
+                setSaveTracks={setSaveTracks}
               />
               <S.CenterblockContent>
                 <S.ContentTitle>

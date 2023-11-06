@@ -18,10 +18,16 @@ function Filter({
   setIsSorted,
   sortedTracks,
   setSortedTracks,
+  saveTracks,
+  setSaveTracks,
 }) {
   const [visibleFilter, setVisibleFilter] = useState(null)
   let nonUniqueAuthors = []
   let nonUniqueGenres = []
+
+  if (!isSorted) {
+    setSaveTracks(tracks)
+  }
 
   const getUniqueValues = (array) => {
     function onlyUnique(value, index, array) {
@@ -47,20 +53,13 @@ function Filter({
     return getUniqueValues(newArr)
   }
 
-  let authors = getAuthors(tracks, nonUniqueAuthors)
-  let genres = getGenres(tracks, nonUniqueGenres)
-  let chosenAuthors = []
-  let chosenGenres = []
+  let authors = getAuthors(saveTracks, nonUniqueAuthors)
+  let genres = getGenres(saveTracks, nonUniqueGenres)
+  let [chosenAuthors, setChosenAuthors] = useState([])
+  let [chosenGenres, setChosenGenres] = useState([])
 
   const sortDown = () => {
-    let sorted
-    if (location.pathname === '/') {
-      sorted = [...tracks]
-    } else if (location.pathname === '/favourites') {
-      sorted = [...myTracks]
-    } else {
-      sorted = [...categoryTracks]
-    }
+    let sorted = [...tracks]
     // console.log(sorted)
     sorted.sort((a, b) => {
       const aa = new Date(a.release_date)
@@ -68,13 +67,7 @@ function Filter({
       return bb - aa
     })
 
-    if (location.pathname === '/') {
-      setTracks(sorted)
-    } else if (location.pathname === '/favourites') {
-      setMyTracks(sorted)
-    } else {
-      setCategoryTracks(sorted)
-    }
+    setTracks(sorted)
     dispatch(setPlaylist(sorted))
 
     setSortedTracks(sorted)
@@ -82,27 +75,14 @@ function Filter({
   }
 
   const sortUp = () => {
-    let sorted
-    if (location.pathname === '/') {
-      sorted = [...tracks]
-    } else if (location.pathname === '/favourites') {
-      sorted = [...myTracks]
-    } else {
-      sorted = [...categoryTracks]
-    }
+    let sorted = [...tracks]
     // console.log(sorted)
     sorted.sort((a, b) => {
       const aa = new Date(a.release_date)
       const bb = new Date(b.release_date)
       return aa - bb
     })
-    if (location.pathname === '/') {
-      setTracks(sorted)
-    } else if (location.pathname === '/favourites') {
-      setMyTracks(sorted)
-    } else {
-      setCategoryTracks(sorted)
-    }
+    setTracks(sorted)
     dispatch(setPlaylist(sorted))
 
     setSortedTracks(sorted)
@@ -110,40 +90,44 @@ function Filter({
   }
 
   const sortDefault = () => {
-    let sorted
-    if (location.pathname === '/') {
-      sorted = [...tracks]
-    } else if (location.pathname === '/favourites') {
-      sorted = [...myTracks]
-    } else {
-      sorted = [...categoryTracks]
-    }
+    let sorted = [...tracks]
     // console.log(sorted)
     sorted.sort((a, b) => {
       const aa = new Date(a.id)
       const bb = new Date(b.id)
       return aa - bb
     })
-    if (location.pathname === '/') {
-      setTracks(sorted)
-    } else if (location.pathname === '/favourites') {
-      setMyTracks(sorted)
-    } else {
-      setCategoryTracks(sorted)
-    }
+    setTracks(sorted)
     dispatch(setPlaylist(sorted))
 
     setSortedTracks(sorted)
     setIsSorted(true)
   }
 
-  const addChosenToArray = (array, item, callback) => {
-    array.push(item)
+  const addChosenAuthorToArray = (item, callback) => {
+    // array.push(item)
     // console.log('done')
+    chosenAuthors.push(item)
+    setChosenAuthors((chosenAuthors) => [...chosenAuthors, item])
+    setChosenAuthors(getUniqueValues(chosenAuthors))
+    console.log(chosenAuthors)
+
+    callback()
+  }
+
+  const addChosenGenreToArray = (item, callback) => {
+    // array.push(item)
+    // console.log('done')
+    chosenGenres.push(item)
+    setChosenGenres((chosenGenres) => [...chosenGenres, item])
+    setChosenGenres(getUniqueValues(chosenGenres))
+    console.log(chosenGenres)
+
     callback()
   }
 
   const filterByGenres = (chosenGenres, array) => {
+    setTracks(saveTracks)
     let filtered = []
     for (let chosenGenre of chosenGenres) {
       for (let item of array) {
@@ -159,6 +143,7 @@ function Filter({
   }
 
   const filterByAuthors = (chosenAuthors, array) => {
+    setTracks(saveTracks)
     let filtered = []
     for (let chosenAuthor of chosenAuthors) {
       for (let item of array) {
@@ -174,37 +159,13 @@ function Filter({
   }
 
   const detectPageForFilteringGenres = () => {
-    switch (location.pathname) {
-      case '/':
-        filterByGenres(chosenGenres, tracks)
-        setTracks(sortedTracks)
-        break
-      case '/favourites':
-        filterByGenres(chosenGenres, myTracks)
-        setMyTracks(sortedTracks)
-        break
-      default:
-        filterByGenres(chosenGenres, categoryTracks)
-        setCategoryTracks(sortedTracks)
-        break
-    }
+    filterByGenres(chosenGenres, saveTracks)
+    setTracks(sortedTracks)
   }
 
   const detectPageForFilteringAuthors = () => {
-    switch (location.pathname) {
-      case '/':
-        filterByAuthors(chosenAuthors, tracks)
-        setTracks(sortedTracks)
-        break
-      case '/favourites':
-        filterByAuthors(chosenAuthors, myTracks)
-        setMyTracks(sortedTracks)
-        break
-      default:
-        filterByAuthors(chosenAuthors, categoryTracks)
-        setCategoryTracks(sortedTracks)
-        break
-    }
+    filterByAuthors(chosenAuthors, saveTracks)
+    setTracks(sortedTracks)
   }
 
   const toggleVisibleFilter = (filter) => {
@@ -228,11 +189,7 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  addChosenToArray(
-                    chosenAuthors,
-                    item,
-                    detectPageForFilteringAuthors,
-                  )
+                  addChosenAuthorToArray(item, detectPageForFilteringAuthors)
                 }}
               >
                 {item}
@@ -271,11 +228,7 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  addChosenToArray(
-                    chosenGenres,
-                    item,
-                    detectPageForFilteringGenres,
-                  )
+                  addChosenGenreToArray(item, detectPageForFilteringGenres)
                 }}
               >
                 {item}
