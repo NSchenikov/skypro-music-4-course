@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { setChoosedTrack, setPlaylist } from '../../store/tracksSlice'
 import { useSelector } from 'react-redux'
 import * as S from './filter.style'
@@ -22,57 +22,34 @@ function Filter({
   setSaveTracks,
 }) {
   const [visibleFilter, setVisibleFilter] = useState(null)
-  let nonUniqueAuthors = []
-  let nonUniqueGenres = []
+
+  useEffect(() => {
+    if (!isSorted) {
+      setSaveTracks(tracks)
+    }
+  })
 
   if (!isSorted) {
     setSaveTracks(tracks)
   }
 
-  // useEffect(() => {
-  //   setSaveTracks(tracks)
-  // }, [])
+  let authors = Array.from(new Set(saveTracks.map((track) => track.author)))
+  let genres = Array.from(new Set(saveTracks.map((track) => track.genre)))
 
-  const getUniqueValues = (array) => {
-    function onlyUnique(value, index, array) {
-      return array.indexOf(value) === index
-    }
+  // const [authorFilter, setAuthorFilter] = useState([])
+  // const [genreFilter, setGenreFilter] = useState([])
+  // const [selectedSort, setSelectedSort] = useState('По умолчанию')
 
-    return array.filter(onlyUnique)
-  }
-
-  const getAuthors = (initialArr, newArr) => {
-    for (let initialAr of initialArr) {
-      newArr.push(initialAr.author)
-    }
-
-    return getUniqueValues(newArr)
-  }
-
-  const getGenres = (initialArr, newArr) => {
-    for (let initialAr of initialArr) {
-      newArr.push(initialAr.genre)
-    }
-
-    return getUniqueValues(newArr)
-  }
-
-  let authors = getAuthors(saveTracks, nonUniqueAuthors)
-  let genres = getGenres(saveTracks, nonUniqueGenres)
+  let yearRef = useRef('default')
+  let authorRef = useRef('')
+  let genreRef = useRef('')
+  let authorResultRef = useRef('')
 
   let [obj, setObj] = useState({
     author: [],
-    year: 'default',
+    year: '',
     genre: [],
   })
-
-  const changeAuthors = (item) => {
-    setObj({ ...obj, author: [...obj.author, item] })
-  }
-
-  const changeGenres = (item) => {
-    setObj({ ...obj, genre: [...obj.genre, item] })
-  }
 
   useEffect(() => {
     console.log('obj', obj)
@@ -80,57 +57,155 @@ function Filter({
 
   // useEffect(() => {
   //   sortAndFilter()
-  // }, [obj])
+  // }, [JSON.stringify(obj)])
 
-  // useEffect(() => {
-  //   sortAndFilter()
-  // }, [tracks])
+  const changeAuthors = (item) => {
+    authorResultRef.current = item
+    console.log('ref', authorResultRef.current)
+    Promise.resolve()
+      .then(() => {
+        // authorResultRef.current = item
+        console.log('resolve')
+        setObj({ ...obj, author: [...obj.author, item] })
+        // obj = { ...obj, author: [...obj.author, item] }
+      })
+      .then(() => {
+        sortAndFilter()
+      })
+  }
+
+  const changeGenres = (item) => {
+    Promise.resolve()
+      .then(() => {
+        obj = { ...obj, genre: [...obj.genre, item] }
+      })
+      .then(() => {
+        console.log('obj', obj)
+      })
+      .then(() => {
+        sortAndFilter()
+      })
+  }
+
+  const changeYearSorting = (item) => {
+    Promise.resolve()
+      .then(() => {
+        obj = { ...obj, year: item }
+      })
+      .then(() => {
+        console.log('obj', obj)
+      })
+      .then(() => {
+        sortAndFilter()
+      })
+  }
 
   const filterByAuthor = () => {
-    // setTracks(saveTracks)
     let filtered = []
-    console.log('массив авторов в объекте перед проверкой', obj.author)
-    for (let author of obj.author) {
-      for (let item of saveTracks) {
-        if (author.includes(item.author)) {
-          // filtered.push(item)
-          // console.log(filtered)
-          filtered = [...filtered, item]
-        }
-      }
-    }
-    console.log('конечный', filtered)
+    // for (let author of obj.author) {
+    //   for (let item of saveTracks) {
+    //     if (author.includes(item.author)) {
+    //       // filtered.push(item)
+    //       filtered = [...filtered, item]
+    //     }
+    //   }
+    // }
 
-    setSortedTracks(filtered)
-    sortedTracks = [...filtered]
+    // if (obj.author.length) {
+
+    console.log('lenght', obj.author.length)
+    for (let i = 0; i <= obj.author.length; i++) {
+      const result = saveTracks.filter((el) => el.author === obj.author[i])
+      filtered = [...filtered, ...result]
+    }
+
+    // }
+    console.log(filtered)
+    // setTracks(filtered)
+
+    return filtered
   }
 
   const filterByGenre = () => {
-    // setTracks(saveTracks)
     let filtered = []
-    console.log('массив жанров в объекте перед проверкой', obj.genre)
+
     for (let genre of obj.genre) {
       for (let item of saveTracks) {
         if (genre.includes(item.genre)) {
-          // filtered.push(item)
           filtered = [...filtered, item]
         }
       }
     }
-    console.log('конечный', filtered)
 
-    setSortedTracks(filtered)
-    sortedTracks = [...filtered]
+    return filtered
+  }
+
+  const sortDown = () => {
+    let sorted
+
+    sorted = [...saveTracks]
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return bb - aa
+    })
+
+    setIsSorted(true)
+    return sorted
+  }
+
+  const sortUp = () => {
+    let sorted
+
+    sorted = [...saveTracks]
+
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return aa - bb
+    })
+
+    setIsSorted(true)
+    return sorted
+  }
+
+  const sortDefault = () => {
+    let sorted
+    sorted = [...saveTracks]
+
+    // console.log(sorted)
+    sorted.sort((a, b) => {
+      const aa = new Date(a.id)
+      const bb = new Date(b.id)
+      return aa - bb
+    })
+
+    setIsSorted(true)
+    return sorted
   }
 
   const sortAndFilter = () => {
+    // console.log('execute!')
     if (obj.author) {
-      filterByAuthor()
+      setTracks(filterByAuthor())
     }
     if (obj.genre) {
-      filterByGenre()
+      setTracks(filterByGenre())
     }
-    setTracks(sortedTracks)
+
+    if (obj.year === 'default') {
+      // setSortedTracks(sortDefault())
+      setTracks(sortDefault())
+    } else if (obj.year === 'new') {
+      // setSortedTracks(sortDown())
+      setTracks(sortDown())
+    } else if (obj.year === 'old') {
+      // setSortedTracks(sortUp())
+      setTracks(sortUp())
+    }
+    // setTracks(sortedTracks)
     setIsSorted(true)
   }
 
@@ -155,11 +230,8 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  // if (event.target) {
-                  console.log('author')
-                  changeAuthors(item)
-                  sortAndFilter()
-                  // }
+                  authorRef.current = item
+                  changeAuthors(authorRef.current)
                 }}
               >
                 {item}
@@ -179,24 +251,24 @@ function Filter({
           <S.PopupBox $year>
             <S.PopupLine
               onClick={() => {
-                console.log('default')
-                setObj({ ...obj, year: 'default' })
+                yearRef.current = 'default'
+                changeYearSorting(yearRef.current)
               }}
             >
               По умолчанию
             </S.PopupLine>
             <S.PopupLine
               onClick={() => {
-                console.log('new')
-                setObj({ ...obj, year: 'new' })
+                yearRef.current = 'new'
+                changeYearSorting(yearRef.current)
               }}
             >
               Сначала новые
             </S.PopupLine>
             <S.PopupLine
               onClick={() => {
-                console.log('old')
-                setObj({ ...obj, year: 'old' })
+                yearRef.current = 'old'
+                changeYearSorting(yearRef.current)
               }}
             >
               Сначала старые
@@ -217,9 +289,8 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  console.log('genre')
-                  changeGenres(item)
-                  sortAndFilter()
+                  genreRef.current = item
+                  changeGenres(genreRef.current)
                 }}
               >
                 {item}
