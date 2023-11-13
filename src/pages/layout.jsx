@@ -23,15 +23,50 @@ export const Layout = () => {
   const [sortedTracks, setSortedTracks] = useState([])
   const [saveTracks, setSaveTracks] = useState([])
 
+  const navigate = useNavigate()
+
   const [filteredTracks, setFilteredTracks] = useState(tracks)
 
-  console.log('filteredTracks', filteredTracks)
   const handleFilterByAuthor = (author) => {
     const filtered = tracks.filter((track) => track.author === author)
     setFilteredTracks(filtered)
   }
 
-  const navigate = useNavigate()
+  const handleFilterByGenre = (genre) => {
+    const filtered = tracks.filter((track) => track.genre === genre)
+    setFilteredTracks(filtered)
+  }
+
+  const handleSortDown = () => {
+    let sorted = [...tracks]
+
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return bb - aa
+    })
+    setFilteredTracks(sorted)
+  }
+
+  const handleSortUp = () => {
+    let sorted = [...tracks]
+
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return aa - bb
+    })
+    setFilteredTracks(sorted)
+  }
+
+  const handleSortDefault = () => {
+    let sorted = [...tracks]
+
+    sorted.sort((a, b) => {
+      return a.id - b.id
+    })
+    setFilteredTracks(sorted)
+  }
 
   useEffect(() => {
     getTracks()
@@ -151,7 +186,6 @@ export const Layout = () => {
                   : 'Рок музыка'}
               </S.CenterblockH2>
               <Filter
-                onFilter={handleFilterByAuthor}
                 tracks={tracks}
                 setTracks={setTracks}
                 myTracks={myTracks}
@@ -165,6 +199,11 @@ export const Layout = () => {
                 sortedTracks={sortedTracks}
                 setSortedTracks={setSortedTracks}
                 saveTracks={saveTracks}
+                handleFilterByAuthor={handleFilterByAuthor}
+                handleFilterByGenre={handleFilterByGenre}
+                handleSortDown={handleSortDown}
+                handleSortUp={handleSortUp}
+                handleSortDefault={handleSortDefault}
                 setSaveTracks={setSaveTracks}
               />
               <S.CenterblockContent>
