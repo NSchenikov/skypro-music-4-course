@@ -25,7 +25,7 @@ export const Layout = () => {
 
   const navigate = useNavigate()
 
-  const [filteredTracks, setFilteredTracks] = useState(tracks)
+  const [filteredTracks, setFilteredTracks] = useState([])
 
   const handleFilterByAuthor = (author) => {
     const filtered = tracks.filter((track) => track.author === author)
@@ -72,6 +72,7 @@ export const Layout = () => {
     getTracks()
       .then((tracks) => {
         setTracks(tracks)
+        setFilteredTracks(tracks)
         // console.log(tracks)
       })
       .then(() => setLoading(false))
