@@ -19,10 +19,18 @@ function Filter({
   sortedTracks,
   setSortedTracks,
   saveTracks,
+  onFilter,
   setSaveTracks,
 }) {
   const [visibleFilter, setVisibleFilter] = useState(null)
 
+  const [selectedAuthor, setSelectedAuthor] = useState('')
+
+  const handleAuthorChange = (author) => {
+    setSelectedAuthor(author)
+    onFilter(author)
+  }
+  console.log('tracks from filter', tracks)
   useEffect(() => {
     if (!isSorted) {
       setSaveTracks(tracks)
@@ -230,8 +238,10 @@ function Filter({
               <S.PopupLine
                 key={i}
                 onClick={() => {
-                  authorRef.current = item
-                  changeAuthors(authorRef.current)
+                  console.log('item', item)
+                  // authorRef.current = item
+                  // changeAuthors(authorRef.current)
+                  handleAuthorChange(item)
                 }}
               >
                 {item}

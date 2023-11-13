@@ -23,6 +23,14 @@ export const Layout = () => {
   const [sortedTracks, setSortedTracks] = useState([])
   const [saveTracks, setSaveTracks] = useState([])
 
+  const [filteredTracks, setFilteredTracks] = useState(tracks)
+
+  console.log('filteredTracks', filteredTracks)
+  const handleFilterByAuthor = (author) => {
+    const filtered = tracks.filter((track) => track.author === author)
+    setFilteredTracks(filtered)
+  }
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -143,6 +151,7 @@ export const Layout = () => {
                   : 'Рок музыка'}
               </S.CenterblockH2>
               <Filter
+                onFilter={handleFilterByAuthor}
                 tracks={tracks}
                 setTracks={setTracks}
                 myTracks={myTracks}
@@ -171,7 +180,7 @@ export const Layout = () => {
                 </S.ContentTitle>
                 <Outlet
                   context={[
-                    tracks,
+                    filteredTracks,
                     setTracks,
                     setCurrentTrack,
                     currentTrack,

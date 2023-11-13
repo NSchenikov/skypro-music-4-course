@@ -121,6 +121,7 @@ function Playlist({
         throw new Error(error)
       })
   }
+  console.log('tracks', tracks)
   return (
     <S.ContentPlaylist>
       {tracks.map((track, index) => {
