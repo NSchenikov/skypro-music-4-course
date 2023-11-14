@@ -31,14 +31,14 @@ export const Layout = () => {
     const filtered = tracks.filter((track) => track.author === author)
     setFilteredTracks(filtered)
   }
-
+  console.log('filteredTracks', filteredTracks)
   const handleFilterByGenre = (genre) => {
-    const filtered = tracks.filter((track) => track.genre === genre)
+    const filtered = filteredTracks.filter((track) => track.genre === genre)
     setFilteredTracks(filtered)
   }
 
   const handleSortDown = () => {
-    let sorted = [...tracks]
+    let sorted = [...filteredTracks]
 
     sorted.sort((a, b) => {
       const aa = new Date(a.release_date)
@@ -49,7 +49,7 @@ export const Layout = () => {
   }
 
   const handleSortUp = () => {
-    let sorted = [...tracks]
+    let sorted = [...filteredTracks]
 
     sorted.sort((a, b) => {
       const aa = new Date(a.release_date)
@@ -60,7 +60,7 @@ export const Layout = () => {
   }
 
   const handleSortDefault = () => {
-    let sorted = [...tracks]
+    let sorted = [...filteredTracks]
 
     sorted.sort((a, b) => {
       return a.id - b.id
