@@ -22,16 +22,33 @@ export const Layout = () => {
   const [isSorted, setIsSorted] = useState(false)
   const [sortedTracks, setSortedTracks] = useState([])
   const [saveTracks, setSaveTracks] = useState([])
+  const [searchValue, setSearchValue] = useState('')
+  const [selectedAuthors, setSelectedAuthors] = useState([])
+  const [filteredTracks, setFilteredTracks] = useState([])
+
+  useEffect(() => {
+    const searchFilter = tracks.filter((track) =>
+      track.name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+    setFilteredTracks(searchValue ? searchFilter : tracks)
+  }, [searchValue, tracks])
 
   const navigate = useNavigate()
 
-  const [filteredTracks, setFilteredTracks] = useState([])
-
   const handleFilterByAuthor = (author) => {
-    const filtered = tracks.filter((track) => track.author === author)
-    setFilteredTracks(filtered)
+    setSelectedAuthors([...selectedAuthors, author])
   }
-  console.log('filteredTracks', filteredTracks)
+
+  console.log('selectedAuthors', selectedAuthors)
+  useEffect(() => {
+    if (selectedAuthors.length > 0) {
+      const filtered = tracks.filter((track) =>
+        selectedAuthors.includes(track.author),
+      )
+      setFilteredTracks(filtered)
+    }
+  }, [selectedAuthors])
+
   const handleFilterByGenre = (genre) => {
     const filtered = filteredTracks.filter((track) => track.genre === genre)
     setFilteredTracks(filtered)
@@ -174,7 +191,10 @@ export const Layout = () => {
           <S.Main>
             <MainNavMenu />
             <S.MainCenterblock>
-              <Search />
+              <Search
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+              />
               <S.CenterblockH2>
                 {location.pathname === '/'
                   ? 'Треки'
