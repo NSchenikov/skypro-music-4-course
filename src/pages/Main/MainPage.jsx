@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom'
 
 export const Main = () => {
   const [
-    tracks,
+    filteredTracks,
     setTracks,
     setCurrentTrack,
     currentTrack,
@@ -21,6 +21,12 @@ export const Main = () => {
     location,
     likesIndexes,
     setLikesIndexes,
+    categoryTracks,
+    pushCategory,
+    isSorted,
+    setIsSorted,
+    sortedTracks,
+    setSortedTracks,
   ] = useOutletContext()
 
   return (
@@ -29,7 +35,7 @@ export const Main = () => {
       {loading && <PlaylistSkeleton />}
       {!loading && (
         <Playlist
-          tracks={tracks}
+          tracks={filteredTracks}
           setTracks={setTracks}
           myTracks={myTracks}
           setMyTracks={setMyTracks}
@@ -42,6 +48,11 @@ export const Main = () => {
           location={location}
           likesIndexes={likesIndexes}
           setLikesIndexes={setLikesIndexes}
+          categoryTracks={categoryTracks}
+          isSorted={isSorted}
+          setIsSorted={setIsSorted}
+          sortedTracks={sortedTracks}
+          setSortedTracks={setSortedTracks}
         />
       )}
     </>

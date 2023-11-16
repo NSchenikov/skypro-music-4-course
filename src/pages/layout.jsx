@@ -19,13 +19,77 @@ export const Layout = () => {
   const [fetchTracksError, setFetchTracksError] = useState(null)
   let [isPlaying, setIsPlaying] = useState(false)
   const [likesIndexes, setLikesIndexes] = useState([])
+  const [isSorted, setIsSorted] = useState(false)
+  const [sortedTracks, setSortedTracks] = useState([])
+  const [saveTracks, setSaveTracks] = useState([])
+  const [searchValue, setSearchValue] = useState('')
+  const [selectedAuthors, setSelectedAuthors] = useState([])
+  const [filteredTracks, setFilteredTracks] = useState([])
+
+  useEffect(() => {
+    const searchFilter = tracks.filter((track) =>
+      track.name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+    setFilteredTracks(searchValue ? searchFilter : tracks)
+  }, [searchValue, tracks])
 
   const navigate = useNavigate()
+
+  const handleFilterByAuthor = (author) => {
+    setSelectedAuthors([...selectedAuthors, author])
+  }
+
+  console.log('selectedAuthors', selectedAuthors)
+  useEffect(() => {
+    if (selectedAuthors.length > 0) {
+      const filtered = tracks.filter((track) =>
+        selectedAuthors.includes(track.author),
+      )
+      setFilteredTracks(filtered)
+    }
+  }, [selectedAuthors])
+
+  const handleFilterByGenre = (genre) => {
+    const filtered = filteredTracks.filter((track) => track.genre === genre)
+    setFilteredTracks(filtered)
+  }
+
+  const handleSortDown = () => {
+    let sorted = [...filteredTracks]
+
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return bb - aa
+    })
+    setFilteredTracks(sorted)
+  }
+
+  const handleSortUp = () => {
+    let sorted = [...filteredTracks]
+
+    sorted.sort((a, b) => {
+      const aa = new Date(a.release_date)
+      const bb = new Date(b.release_date)
+      return aa - bb
+    })
+    setFilteredTracks(sorted)
+  }
+
+  const handleSortDefault = () => {
+    let sorted = [...filteredTracks]
+
+    sorted.sort((a, b) => {
+      return a.id - b.id
+    })
+    setFilteredTracks(sorted)
+  }
 
   useEffect(() => {
     getTracks()
       .then((tracks) => {
         setTracks(tracks)
+        setFilteredTracks(tracks)
         // console.log(tracks)
       })
       .then(() => setLoading(false))
@@ -85,6 +149,39 @@ export const Layout = () => {
   const addSong = () => dispatch(setChoosedTrack(currentTrack))
   addSong()
   const location = useLocation()
+  let [categoryTracks, setCategoryTracks] = useState([])
+  const findCategoryTracks = (categoryName) => {
+    // categoryTracks = tracks.filter((el) => el.genre === categoryName)
+    setCategoryTracks(saveTracks.filter((el) => el.genre === categoryName))
+  }
+  const pushCategory = () => {
+    switch (location.pathname) {
+      case '/category/1':
+        // setCategoryTracks(findCategoryTracks('Классическая музыка'))
+        findCategoryTracks('Классическая музыка')
+        break
+      case '/category/2':
+        // setCategoryTracks(findCategoryTracks('Электронная музыка'))
+        findCategoryTracks('Электронная музыка')
+        break
+      case '/category/3':
+        // setCategoryTracks(findCategoryTracks('Рок музыка'))
+        findCategoryTracks('Рок музыка')
+        break
+      // default:
+      //   null
+    }
+  }
+  useEffect(() => {
+    pushCategory()
+    // console.log('category', categoryTracks)
+  }, [])
+  useEffect(() => {
+    pushCategory()
+    // console.log('category', categoryTracks)
+  }, [location])
+
+  // console.log(categoryTracks)
 
   return (
     <S.App>
@@ -94,11 +191,42 @@ export const Layout = () => {
           <S.Main>
             <MainNavMenu />
             <S.MainCenterblock>
-              <Search />
+              <Search
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+              />
               <S.CenterblockH2>
-                {location.pathname === '/' ? 'Треки' : 'Мои треки'}
+                {location.pathname === '/'
+                  ? 'Треки'
+                  : location.pathname === '/favourites'
+                  ? 'Мои треки'
+                  : location.pathname === '/category/1'
+                  ? 'Классическая музыка'
+                  : location.pathname === '/category/2'
+                  ? 'Электронная музыка'
+                  : 'Рок музыка'}
               </S.CenterblockH2>
-              <Filter />
+              <Filter
+                tracks={tracks}
+                setTracks={setTracks}
+                myTracks={myTracks}
+                setMyTracks={setMyTracks}
+                dispatch={dispatch}
+                categoryTracks={categoryTracks}
+                setCategoryTracks={setCategoryTracks}
+                location={location}
+                isSorted={isSorted}
+                setIsSorted={setIsSorted}
+                sortedTracks={sortedTracks}
+                setSortedTracks={setSortedTracks}
+                saveTracks={saveTracks}
+                handleFilterByAuthor={handleFilterByAuthor}
+                handleFilterByGenre={handleFilterByGenre}
+                handleSortDown={handleSortDown}
+                handleSortUp={handleSortUp}
+                handleSortDefault={handleSortDefault}
+                setSaveTracks={setSaveTracks}
+              />
               <S.CenterblockContent>
                 <S.ContentTitle>
                   <S.Col01>Трек</S.Col01>
@@ -112,7 +240,7 @@ export const Layout = () => {
                 </S.ContentTitle>
                 <Outlet
                   context={[
-                    tracks,
+                    filteredTracks,
                     setTracks,
                     setCurrentTrack,
                     currentTrack,
@@ -127,6 +255,12 @@ export const Layout = () => {
                     location,
                     likesIndexes,
                     setLikesIndexes,
+                    categoryTracks,
+                    pushCategory,
+                    isSorted,
+                    setIsSorted,
+                    sortedTracks,
+                    setSortedTracks,
                   ]}
                 />
               </S.CenterblockContent>
@@ -141,11 +275,15 @@ export const Layout = () => {
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               tracks={tracks}
+              setTracks={setTracks}
               myTracks={myTracks}
+              setMyTracks={setMyTracks}
               setCurrentTrack={setCurrentTrack}
               trackIndex={trackIndex}
               setTrackIndex={setTrackIndex}
               location={location}
+              likesIndexes={likesIndexes}
+              setLikesIndexes={setLikesIndexes}
             />
           )}
           <S.Footer />

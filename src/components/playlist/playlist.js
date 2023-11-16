@@ -19,15 +19,15 @@ function Playlist({
   location,
   likesIndexes,
   setLikesIndexes,
+  categoryTracks,
+  isSorted,
+  setIsSorted,
+  sortedTracks,
+  setSortedTracks,
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   for (let myTrack of myTracks) {
-  //     setLikesIndexes((likesIndexes) => [...likesIndexes, myTrack.id])
-  //   }
-  //   // console.log('все лайкнутые', likesIndexes)
-  // }, [myTracks])
+
   const findLike = (arr, item) => {
     if (Array.isArray(arr)) {
       let found = arr.find((element) => element === item)
@@ -36,7 +36,7 @@ function Playlist({
       console.log('Given data is not an array')
     }
   }
-  console.log('все лайкнутые', likesIndexes)
+  // console.log('все лайкнутые', likesIndexes)
   const Liking = (id) => {
     sendLike(localStorage.user, id)
       .then((res) => {
@@ -46,12 +46,20 @@ function Playlist({
           return
         }
         getTracks().then((tracks) => {
-          setTracks(tracks)
+          if (isSorted) {
+            setTracks(sortedTracks)
+          } else {
+            setTracks(tracks)
+          }
           // console.log(tracks)
         })
         getMyTracks(localStorage.user)
           .then((myTracks) => {
-            setMyTracks(myTracks)
+            if (isSorted) {
+              setMyTracks(sortedTracks)
+            } else {
+              setMyTracks(myTracks)
+            }
             // console.log(myTracks)
           })
           .then(() => {
@@ -78,12 +86,20 @@ function Playlist({
           return
         }
         getTracks().then((tracks) => {
-          setTracks(tracks)
+          if (isSorted) {
+            setTracks(sortedTracks)
+          } else {
+            setTracks(tracks)
+          }
           // console.log(tracks)
         })
         getMyTracks(localStorage.user)
           .then((myTracks) => {
-            setMyTracks(myTracks)
+            if (isSorted) {
+              setMyTracks(sortedTracks)
+            } else {
+              setMyTracks(myTracks)
+            }
             // console.log(myTracks)
           })
           .then(() => {
@@ -122,7 +138,9 @@ function Playlist({
                     setTrackIndex(index)
                     location.pathname === '/'
                       ? dispatch(setPlaylist(tracks))
-                      : dispatch(setPlaylist(myTracks))
+                      : location.pathname === '/favourites'
+                      ? dispatch(setPlaylist(myTracks))
+                      : dispatch(setPlaylist(categoryTracks))
                   }}
                 >
                   {currentTrack === track ? (

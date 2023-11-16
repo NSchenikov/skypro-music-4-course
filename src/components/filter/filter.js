@@ -1,41 +1,62 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { setChoosedTrack, setPlaylist } from '../../store/tracksSlice'
+import { useSelector } from 'react-redux'
 import * as S from './filter.style'
 
 // const S. = styled.div``
 
-function Filter() {
+function Filter({
+  tracks,
+  setTracks,
+  myTracks,
+  setMyTracks,
+  dispatch,
+  categoryTracks,
+  setCategoryTracks,
+  location,
+  isSorted,
+  setIsSorted,
+  sortedTracks,
+  setSortedTracks,
+  saveTracks,
+  handleFilterByAuthor,
+  handleFilterByGenre,
+  handleSortDown,
+  handleSortUp,
+  handleSortDefault,
+  setSaveTracks,
+}) {
   const [visibleFilter, setVisibleFilter] = useState(null)
+
+  useEffect(() => {
+    if (!isSorted) {
+      setSaveTracks(tracks)
+    }
+  })
+
+  if (!isSorted) {
+    setSaveTracks(tracks)
+  }
+
+  let authors = Array.from(new Set(saveTracks.map((track) => track.author)))
+  let genres = Array.from(new Set(saveTracks.map((track) => track.genre)))
+
+  const [selectedAuthor, setSelectedAuthor] = useState([])
+  const [selectedGenre, setSelectedGenre] = useState([])
+
+  const handleAuthorChange = (author) => {
+    setSelectedAuthor(author)
+    handleFilterByAuthor(author)
+  }
+
+  const handleGenreChange = (genre) => {
+    setSelectedGenre(genre)
+    handleFilterByGenre(genre)
+  }
 
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)
   }
-
-  let authors = [
-    'Nero',
-    'Dynoro',
-    'Outwork',
-    'Mr. Gee',
-    'Ali Bakgor',
-    'Стоункат',
-    'Psychopath',
-    'Jaded',
-    'Will Clarke',
-    'AR/CO',
-    'Blue Foundation',
-    'Zeds Dead',
-    'HYBIT',
-    'Mr. Black',
-    'Offer Nissim',
-    'Hi Profile',
-    'minthaze',
-    'Calvin Harris',
-    'Disciples',
-    'Tom Boxer',
-  ]
-
-  let years = ['1994', '1995', '2000']
-
-  let genres = ['rock', 'rap', 'hip-hop', 'electronic', 'house', 'techno']
 
   return (
     <S.CenterblockFilter>
@@ -51,7 +72,16 @@ function Filter() {
         <S.Popup $author>
           <S.PopupBox $author>
             {authors.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
+              <S.PopupLine
+                key={i}
+                onClick={() => {
+                  // authorRef.current = item
+                  // changeAuthors(authorRef.current)
+                  handleAuthorChange(item)
+                }}
+              >
+                {item}
+              </S.PopupLine>
             ))}
           </S.PopupBox>
         </S.Popup>
@@ -65,9 +95,27 @@ function Filter() {
       {visibleFilter === 'year' && (
         <S.Popup $year>
           <S.PopupBox $year>
-            {years.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
-            ))}
+            <S.PopupLine
+              onClick={() => {
+                handleSortDefault()
+              }}
+            >
+              По умолчанию
+            </S.PopupLine>
+            <S.PopupLine
+              onClick={() => {
+                handleSortDown()
+              }}
+            >
+              Сначала новые
+            </S.PopupLine>
+            <S.PopupLine
+              onClick={() => {
+                handleSortUp()
+              }}
+            >
+              Сначала старые
+            </S.PopupLine>
           </S.PopupBox>
         </S.Popup>
       )}
@@ -81,7 +129,14 @@ function Filter() {
         <S.Popup $genre>
           <S.PopupBox $genre>
             {genres.map((item, i) => (
-              <S.PopupLine key={i}>{item}</S.PopupLine>
+              <S.PopupLine
+                key={i}
+                onClick={() => {
+                  handleGenreChange(item)
+                }}
+              >
+                {item}
+              </S.PopupLine>
             ))}
           </S.PopupBox>
         </S.Popup>
